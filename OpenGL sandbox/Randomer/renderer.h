@@ -6,18 +6,14 @@
 #include <stdbool.h>
 
 #include "util.h"
-
-typedef enum
-	{
-	TRIANGLES
-	}render_type;
+#include "shader_utils.h"
 
 typedef struct 
 	{
 	window_size32_t		window_size;
 	GLFWwindow*			pWindow;
 	unsigned int		uiVBO;
-	unsigned int		shader_program;
+	unsigned int		shader_programs[ SHADER_PROGRAM_COUNT ];
 	unsigned int		uiVAO;
 	} Renderer;
 
@@ -27,6 +23,15 @@ Renderer initialization method
 void render_init
 	(
 	void	
+	);
+
+
+/*
+Compiles every shader program.
+*/
+void render_compile_all_shaders
+	(
+	void
 	);
 
 /* 
@@ -71,14 +76,6 @@ void render_triangles_draw
 	void
 	);
 
-/*
-Compiles a shader program based on the
-render type
-*/
-void render_compile_shaders
-	(
-	render_type
-	);
 
 /*
 Renderer size callback function

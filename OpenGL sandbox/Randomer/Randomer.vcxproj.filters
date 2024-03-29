@@ -4,14 +4,25 @@
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="renderer.c" />
+    <ClCompile Include="shader_utils.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="renderer.h" />
     <ClInclude Include="shader_source.h" />
     <ClInclude Include="util.h" />
+    <ClInclude Include="shader_utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="triangles.vert" />
-    <None Include="triangles.frag" />
+    <None Include="triangles.frag">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="triangles.vert">
+      <Filter>glsl</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="glsl">
+      <UniqueIdentifier>{44566677-5f4b-4eeb-8cc7-4efd78b66f6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

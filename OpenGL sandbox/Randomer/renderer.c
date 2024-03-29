@@ -1,6 +1,8 @@
+#include <stdbool.h>
+
 #include "renderer.h"
-#include "shader_source.h"
-#include "shader_utils.h"
+
+extern vert_frag_type vertex_fragment_shaders[];
 
 static Renderer renderer;
 
@@ -23,7 +25,32 @@ if ( !gladLoadGLLoader( (GLADloadproc)glfwGetProcAddress ) )
 	{
     printf( "Failed to initialize GLAD" );
     return;
-	}  
+	} 
+
+/* Compile every shader program */
+render_compile_all_shaders();
+
+}
+
+
+/*
+Compiles every shader program.
+*/
+void render_compile_all_shaders
+	(
+	void
+	)
+{
+for( int i = 0; i < SHADER_PROGRAM_COUNT; i++ )
+	{
+	shdr_generate_program
+		(
+		&renderer.shader_programs[ i ],
+		vertex_fragment_shaders[ i ].vert_shader,
+		vertex_fragment_shaders[ i ].frag_shader
+		);
+	}
+
 }
 
 
@@ -62,21 +89,25 @@ void render_triangles_init
 	unsigned int	count
 	)
 {
-render_compile_shaders( TRIANGLES );
-
 GL_CALL( glGenVertexArrays( 1, &renderer.uiVAO ) );
 GL_CALL( glGenBuffers( 1, &renderer.uiVBO ) );
 
 GL_CALL( glBindVertexArray( renderer.uiVAO ) );
 
 GL_CALL( glBindBuffer( GL_ARRAY_BUFFER, renderer.uiVBO ) );
-GL_CALL( glBufferData( GL_ARRAY_BUFFER, sizeof( data[0] ) * count * 3 , data, GL_STATIC_DRAW ) );
+GL_CALL( glBufferData( GL_ARRAY_BUFFER, sizeof( data[0] ) * count * 6, data, GL_STATIC_DRAW ) );
 
-GL_CALL( glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0 ) );
+GL_CALL( glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0 ) );
 GL_CALL( glEnableVertexAttribArray( 0 ) );
+
+GL_CALL( glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(sizeof(float) * 3) ) );
+GL_CALL( glEnableVertexAttribArray( 1 ) );
 
 GL_CALL( glBindBuffer( GL_ARRAY_BUFFER, 0 ) );
 GL_CALL( glBindVertexArray( 0 ) );
+
+/* Set the uniforms */
+shdr_set_bool_uniform( renderer.shader_programs[ SHADER_PROGRAM_TRIANGLES ], "u_use_color", true );
 
 }
 
@@ -92,9 +123,13 @@ void render_triangles_draw
 GL_CALL( glClearColor( 0.2f, 0.3f, 0.3f, 1.0f ) );
 GL_CALL( glClear( GL_COLOR_BUFFER_BIT ) );
 
-GL_CALL( glUseProgram( renderer.shader_program ) );
+GL_CALL( glUseProgram( renderer.shader_programs[ SHADER_PROGRAM_TRIANGLES ] ) );
 GL_CALL( glBindVertexArray( renderer.uiVAO ) );
+
 GL_CALL( glDrawArrays( GL_TRIANGLES, 0, 3 ) );
+
+GL_CALL( glUseProgram( 0 ) );
+GL_CALL( glBindVertexArray( 0 ) );
 
 }
 
@@ -110,33 +145,6 @@ void render_draw_and_poll_events
 {
 glfwSwapBuffers( renderer.pWindow );
 glfwPollEvents();
-
-}
-
-/*
-Compiles a shader program based on the
-render type
-*/
-void render_compile_shaders
-	(
-	render_type draw_type
-	)
-{
-	   
-switch( draw_type )
-	{
-	case TRIANGLES:
-		shdr_generate_program
-			( 
-			&renderer.shader_program, 
-			TRIANGLE_VERTEX_SHADER_FILE, 
-			TRIANGLE_FRAGMENT_SHADER_FILE 
-			);
-		break;
-	default:
-		printf( "Unsupported render type!\n" );
-		break;
-	}
 
 }
 

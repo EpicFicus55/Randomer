@@ -7,6 +7,10 @@
 #include "util.h"
 #include "shader_utils.h"
 
+vert_frag_type vertex_fragment_shaders[] =
+	{
+		{ TRIANGLE_VERTEX_SHADER_FILE, TRIANGLE_FRAGMENT_SHADER_FILE }
+	};
 
 /*
 Generates a shader program.
@@ -56,10 +60,30 @@ GL_CALL( glDeleteShader( _frag_shdr ) );
 
 
 /*
+Set a boolean uniform.
+*/
+void shdr_set_bool_uniform
+	(
+	unsigned int	shader,
+	const char*		name,
+	bool			value
+	)
+{
+GLint _location = 0;
+
+GL_CALL( glUseProgram( shader ) );
+GL_CALL( _location = glGetUniformLocation( shader, name ) );
+GL_CALL( glUniform1i( _location, value ) );
+GL_CALL( glUseProgram( 0 ) );
+
+}
+
+
+/*
 Compiles a shader and updates 
 the handle.
 */
-void shdr_compile_shader
+static void shdr_compile_shader
 	(
 	unsigned int*	shader,
 	GLenum			shader_type,
@@ -69,6 +93,9 @@ void shdr_compile_shader
 char*	_shader_source = NULL;
 int		_success = 0;
 char	_info_log[ 512 ];
+
+/* Clear _info_log */
+memset( &_info_log[ 0 ], 0, sizeof(_info_log) );
 
 /* Generate a shader */
 GL_CALL( *shader = glCreateShader( shader_type ) );
@@ -102,7 +129,7 @@ size of the file.
 NOTE: the output buffer needs to be freed
 after it is no longer needed.
 */
-void shdr_read_file_into
+static void shdr_read_file_into
 	(
 	char*	input_file_name,
 	char**	output_buffer
