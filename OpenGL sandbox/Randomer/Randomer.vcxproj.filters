@@ -11,12 +11,19 @@
     <ClInclude Include="shader_source.h" />
     <ClInclude Include="util.h" />
     <ClInclude Include="shader_utils.h" />
+    <ClInclude Include="stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="triangles.frag">
       <Filter>glsl</Filter>
     </None>
     <None Include="triangles.vert">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="rectangles.vert">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="rectangles.frag">
       <Filter>glsl</Filter>
     </None>
   </ItemGroup>

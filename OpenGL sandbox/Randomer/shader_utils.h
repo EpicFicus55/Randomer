@@ -13,6 +13,7 @@ typedef struct
 typedef enum
 	{
 	SHADER_PROGRAM_TRIANGLES,
+	SHADER_PROGRAM_RECTANGLES,
 
 	/* Must be last */
 	SHADER_PROGRAM_COUNT
