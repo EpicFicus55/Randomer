@@ -7,6 +7,7 @@
 
 #include "util.h"
 #include "shader_utils.h"
+#include "cglm/cglm.h"
 
 typedef struct 
 	{
@@ -14,8 +15,10 @@ typedef struct
 	GLFWwindow*			pWindow;
 	unsigned int		uiVBO;
 	unsigned int		uiEBO;
-	unsigned int		shader_programs[ SHADER_PROGRAM_COUNT ];
 	unsigned int		uiVAO;
+	unsigned int		shader_programs[ SHADER_PROGRAM_COUNT ];
+	mat4				view_mat;
+	mat4				proj_mat;
 	unsigned int		texture;
 	} Renderer;
 
@@ -24,7 +27,8 @@ Renderer initialization method
 */
 void render_init
 	(
-	void	
+	uint32_t,
+	uint32_t
 	);
 
 
@@ -89,7 +93,7 @@ a set of rectangles.
 void render_rectangles_tex_init
 	(
 	float*,
-	float*,
+	unsigned int*,
 	unsigned int,
 	char*
 	);
@@ -98,6 +102,27 @@ void render_rectangles_tex_init
 Render the rectangles.
 */
 void render_rectangles_tex_draw
+	(
+	void
+	);
+
+
+/* ---- Cube drawing ---- */
+/*
+Initialize the renderer for rendering
+a set of cubes.
+*/
+void render_cubes_tex_init
+	(
+	float*,
+	unsigned int,
+	char*
+	);
+
+/* 
+Render the rectangles.
+*/
+void render_cubes_tex_draw
 	(
 	void
 	);

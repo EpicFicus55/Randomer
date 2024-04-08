@@ -3,6 +3,7 @@
 #include<stdbool.h>
 
 #include "shader_source.h"
+#include "cglm/cglm.h"
 
 typedef struct
 	{
@@ -14,6 +15,7 @@ typedef enum
 	{
 	SHADER_PROGRAM_TRIANGLES,
 	SHADER_PROGRAM_RECTANGLES,
+	SHADER_PROGRAM_CUBES,
 
 	/* Must be last */
 	SHADER_PROGRAM_COUNT
@@ -40,6 +42,18 @@ void shdr_set_bool_uniform
 	const char*		name,
 	bool			value
 	);
+
+
+/*
+Set a mat4 uniform.
+*/
+void shdr_set_mat4_uniform
+	(
+	unsigned int	shader,
+	const char*		name,
+	mat4			value
+	);
+
 
 /*
 Compiles a shader and updates 

@@ -12,6 +12,7 @@
     <ClInclude Include="util.h" />
     <ClInclude Include="shader_utils.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="data.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="triangles.frag">
@@ -24,6 +25,12 @@
       <Filter>glsl</Filter>
     </None>
     <None Include="rectangles.frag">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="cubes.frag">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="cubes.vert">
       <Filter>glsl</Filter>
     </None>
   </ItemGroup>

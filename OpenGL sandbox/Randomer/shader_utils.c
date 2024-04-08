@@ -9,8 +9,9 @@
 
 vert_frag_type vertex_fragment_shaders[] =
 	{
-		{ TRIANGLE_VERTEX_SHADER_FILE, TRIANGLE_FRAGMENT_SHADER_FILE },
-		{ RECTANGLES_VERTEX_SHADER_FILE, RECTANGLES_FRAGMENT_SHADER_FILE }
+		{ TRIANGLE_VERTEX_SHADER_FILE,		TRIANGLE_FRAGMENT_SHADER_FILE	},
+		{ RECTANGLES_VERTEX_SHADER_FILE,	RECTANGLES_FRAGMENT_SHADER_FILE },
+		{ CUBES_VERTEX_SHADER_FILE,			CUBES_FRAGMENT_SHADER_FILE }
 	};
 
 /*
@@ -81,6 +82,25 @@ GL_CALL( glUseProgram( 0 ) );
 
 
 /*
+Set a mat4 uniform.
+*/
+void shdr_set_mat4_uniform
+	(
+	unsigned int	shader,
+	const char*		name,
+	mat4			value
+	)
+{
+GLint _location = 0;
+
+GL_CALL( glUseProgram( shader ) );
+GL_CALL( _location = glGetUniformLocation( shader, name ) );
+GL_CALL( glUniformMatrix4fv( _location, 1, GL_FALSE, value[0] ) );
+GL_CALL( glUseProgram( 0 ) );
+
+}
+
+/*
 Compiles a shader and updates 
 the handle.
 */
@@ -113,7 +133,7 @@ GL_CALL( glGetShaderiv( *shader, GL_COMPILE_STATUS, &_success ) );
 if ( !_success )
 	{
 	glGetShaderInfoLog( *shader, sizeof(_info_log), NULL, _info_log );
-	printf( "Compilation of the vertex shader: %s\n", _info_log );
+	printf( "Compilation of the shader: %s\n", _info_log );
 	}
 
 /* Free the buffer */
