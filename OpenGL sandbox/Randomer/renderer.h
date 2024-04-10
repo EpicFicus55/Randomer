@@ -7,6 +7,7 @@
 
 #include "util.h"
 #include "shader_utils.h"
+#include "camera_utils.h"
 #include "cglm/cglm.h"
 
 typedef struct 
@@ -20,6 +21,7 @@ typedef struct
 	mat4				view_mat;
 	mat4				proj_mat;
 	unsigned int		texture;
+	Camera				camera;
 	} Renderer;
 
 /* 
@@ -29,6 +31,17 @@ void render_init
 	(
 	uint32_t,
 	uint32_t
+	);
+
+
+/* 
+Renderer add camera
+*/
+void render_attach_camera
+	(
+	Camera_Type,
+	vec3,
+	vec3
 	);
 
 

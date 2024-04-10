@@ -38,6 +38,29 @@ if ( !gladLoadGLLoader( (GLADloadproc)glfwGetProcAddress ) )
 /* Compile every shader program */
 render_compile_all_shaders();
 
+
+}
+
+
+/* 
+Renderer add camera
+*/
+void render_attach_camera
+	(
+	Camera_Type	camera_type,
+	vec3		camera_position,
+	vec3		camera_target
+	)
+{
+camera_init
+	(
+	&renderer.camera,
+	camera_type,
+	camera_position,
+	camera_target
+	);
+renderer.camera.camera_speed = 0.5f;
+
 }
 
 
@@ -297,7 +320,7 @@ glm_make_rad( &_angle );
 glm_rotate_x( _model_mat, _angle, _model_mat );
 
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uProjMat", _proj_mat );
-shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uViewMat", _view_mat );
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uViewMat", renderer.camera.view );
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uModelMat", _model_mat );
 
 }
@@ -374,6 +397,13 @@ void render_process_input
 if( glfwGetKey( renderer.pWindow, GLFW_KEY_ESCAPE ) == GLFW_PRESS )
 	{
 	glfwSetWindowShouldClose( renderer.pWindow, 1 );
+	}
+if( glfwGetKey( renderer.pWindow, GLFW_KEY_A ) == GLFW_PRESS )
+	{
+	if( renderer.camera.pfn_A_key_callback )
+		{
+		renderer.camera.pfn_A_key_callback( &renderer.camera );
+		}
 	}
 
 }

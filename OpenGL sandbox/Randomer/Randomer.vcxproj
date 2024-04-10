@@ -166,8 +166,10 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="renderer.c" />
     <ClCompile Include="shader_utils.c" />
+    <ClCompile Include="camera_utils.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="camera_utils.h" />
     <ClInclude Include="data.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="shader_source.h" />
