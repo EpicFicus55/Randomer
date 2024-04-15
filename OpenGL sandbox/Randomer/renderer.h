@@ -41,6 +41,7 @@ void render_attach_camera
 	(
 	Camera_Type,
 	vec3,
+	vec3,
 	vec3
 	);
 

@@ -25,7 +25,7 @@ typedef struct
 
 		/* Camera specific axes */
 		vec3 camera_pos;
-		vec3 camera_target;
+		vec3 camera_front;
 		vec3 camera_direction;
 		vec3 camera_right;
 		vec3 camera_up;
@@ -39,6 +39,7 @@ typedef struct
 
 		/* Callbacks */
 		Camera_Key_Callback pfn_A_key_callback;
+		Camera_Key_Callback pfn_D_key_callback;
 
 		} Camera;
 
@@ -50,5 +51,14 @@ void camera_init
 	Camera*,
 	Camera_Type,
 	vec3,
+	vec3,
 	vec3
+	);
+
+/*
+Updates a camera's matrices
+*/
+void update_camera
+	(
+	Camera*
 	);

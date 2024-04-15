@@ -4,6 +4,7 @@
 
 
 static void camera_A_key_press_callback( Camera* );
+static void camera_D_key_press_callback( Camera* );
 
 
 /*
@@ -14,7 +15,8 @@ void camera_init
 	Camera*			camera,
 	Camera_Type		camera_type,
 	vec3			camera_position,
-	vec3			target_position
+	vec3			camera_front,
+	vec3			camera_up
 	)
 {
 /* Clear the camera */
@@ -27,32 +29,12 @@ camera->system_y[ 2 ] = 1.0f;
 
 /* Set the camera position and target */
 memcpy( &camera->camera_pos[ 0 ], &camera_position[ 0 ], sizeof(vec3) );
-memcpy( &camera->camera_target[ 0 ], &target_position[ 0 ], sizeof(vec3) );
+memcpy( &camera->camera_front[ 0 ], &camera_front[ 0 ], sizeof(vec3) );
+memcpy( &camera->camera_up[ 0 ], &camera_up[ 0 ], sizeof(vec3) );
 
 camera->camera_type = camera_type;
 
-/* Compute the camera parameters */
-glm_mat4_identity( camera->view );
-
-glm_vec3_sub( camera->camera_pos, camera->camera_target, camera->camera_direction );
-glm_normalize( camera->camera_direction );
-
-glm_vec3_cross( camera->camera_direction, camera->system_y, camera->camera_right );
-glm_normalize( camera->camera_right );
-
-glm_vec3_cross( camera->camera_direction, camera->camera_right, camera->camera_up );
-glm_normalize( camera->camera_up );
-
-glm_lookat
-	(
-	camera->camera_pos,
-	camera->camera_target,
-	camera->camera_up,
-	camera->camera_lookat
-	);
-
-/* The renderer will mostly use the view matrix to apply transformations */
-memcpy( camera->view, camera->camera_lookat, sizeof(mat4) );
+update_camera( camera );
 
 /* Set the camera up based on its type */
 switch( camera_type )
@@ -64,6 +46,7 @@ switch( camera_type )
 	case CAMERA_TYPE_XZ_KEYBOARD:
 		/* Can move along the X and Z directions using WASD. */
 		camera->pfn_A_key_callback = &( camera_A_key_press_callback );
+		camera->pfn_D_key_callback = &( camera_D_key_press_callback );
 		break;
 	case CAMERA_TYPE_XYZ_KEYBOARD_MOUSE:
 		break;
@@ -75,11 +58,63 @@ switch( camera_type )
 }
 
 
+/*
+Updates a camera's matrices
+*/
+void update_camera
+	(
+	Camera*	camera
+	)
+{
+vec3 _aux;
+
+/* Compute the camera parameters */
+glm_mat4_identity( camera->view );
+glm_vec3_add( camera->camera_pos, camera->camera_front, _aux );
+
+glm_lookat
+	(
+	camera->camera_pos,
+	_aux,
+	camera->camera_up,
+	camera->camera_lookat
+	);
+
+/* The renderer will mostly use the view matrix to apply transformations */
+memcpy( camera->view, camera->camera_lookat, sizeof(mat4) );
+
+}
+
+
 static void camera_A_key_press_callback
 	(
 	Camera* camera
 	)
 {
-camera->camera_pos;
+vec3 _aux;
+
+memset( _aux, 0, sizeof(_aux) );
+
+glm_vec3_cross( camera->camera_front, camera->camera_up, _aux );
+glm_vec3_scale( _aux, camera->camera_speed, _aux );
+//glm_normalize( _aux ); // is this needed ????
+glm_vec3_sub( camera->camera_pos, _aux, camera->camera_pos );
+
+}
+
+
+static void camera_D_key_press_callback
+	(
+	Camera* camera
+	)
+{
+vec3 _aux;
+
+memset( _aux, 0, sizeof(_aux) );
+
+glm_vec3_cross( camera->camera_front, camera->camera_up, _aux );
+glm_vec3_scale( _aux, camera->camera_speed, _aux );
+//glm_normalize( _aux ); // is this needed ????
+glm_vec3_add( camera->camera_pos, _aux, camera->camera_pos );
 
 }

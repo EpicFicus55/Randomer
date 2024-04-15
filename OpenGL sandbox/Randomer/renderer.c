@@ -49,7 +49,8 @@ void render_attach_camera
 	(
 	Camera_Type	camera_type,
 	vec3		camera_position,
-	vec3		camera_target
+	vec3		camera_target,
+	vec3		camera_up
 	)
 {
 camera_init
@@ -57,9 +58,10 @@ camera_init
 	&renderer.camera,
 	camera_type,
 	camera_position,
-	camera_target
+	camera_target,
+	camera_up
 	);
-renderer.camera.camera_speed = 0.5f;
+renderer.camera.camera_speed = 0.01f;
 
 }
 
@@ -262,7 +264,7 @@ void render_cubes_tex_init
 {
 int				_width, _height, _nr_channels;
 unsigned char*	_tex_data;
-mat4			_proj_mat, _view_mat, _model_mat;
+mat4			_proj_mat, _model_mat;
 float			_angle = 45.0f;
 
 GL_CALL( glGenVertexArrays( 1, &renderer.uiVAO ) );
@@ -300,7 +302,6 @@ stbi_image_free( _tex_data );
 
 /* Set the uniforms */
 glm_mat4_identity( _proj_mat );
-glm_mat4_identity( _view_mat );
 glm_mat4_identity( _model_mat );
 glm_make_rad( &_angle );
 
@@ -313,14 +314,11 @@ glm_perspective
 	_proj_mat
 	);
 
-glm_translate_z( _view_mat, -3.0f );
-
 _angle = -55.0f;
 glm_make_rad( &_angle );
 glm_rotate_x( _model_mat, _angle, _model_mat );
 
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uProjMat", _proj_mat );
-shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uViewMat", renderer.camera.view );
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uModelMat", _model_mat );
 
 }
@@ -334,8 +332,10 @@ void render_cubes_tex_draw
 	void
 	)
 {
+
 GL_CALL( glClearColor( 0.2f, 0.3f, 0.3f, 1.0f ) );
 GL_CALL( glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ) );
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uViewMat", renderer.camera.view );
 
 GL_CALL( glBindVertexArray( renderer.uiVAO ) );
 GL_CALL( glBindTexture( GL_TEXTURE_2D, renderer.texture ) );
@@ -405,5 +405,14 @@ if( glfwGetKey( renderer.pWindow, GLFW_KEY_A ) == GLFW_PRESS )
 		renderer.camera.pfn_A_key_callback( &renderer.camera );
 		}
 	}
+if( glfwGetKey( renderer.pWindow, GLFW_KEY_D ) == GLFW_PRESS )
+	{
+	if( renderer.camera.pfn_D_key_callback )
+		{
+		renderer.camera.pfn_D_key_callback( &renderer.camera );
+		}
+	}
+
+update_camera( &renderer.camera );
 
 }
