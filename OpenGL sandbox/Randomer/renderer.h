@@ -8,6 +8,7 @@
 #include "util.h"
 #include "shader_utils.h"
 #include "camera_utils.h"
+#include "randomer_light.h"
 #include "cglm/cglm.h"
 
 typedef struct 
@@ -22,6 +23,7 @@ typedef struct
 	mat4				proj_mat;
 	unsigned int		texture;
 	Camera				camera;
+	Light_Source		light_source;
 	} Renderer;
 
 /* 
@@ -142,6 +144,18 @@ void render_cubes_tex_draw
 	);
 
 
+/* ---- Lighting ---- */
+/*
+Initialize the renderer light source
+*/
+void render_add_light_source
+	(
+	vec3,
+	vec4
+	);
+
+
+/* ---- Window functions ---- */
 /*
 Renderer size callback function
 */

@@ -368,6 +368,21 @@ glfwPollEvents();
 }
 
 
+/* ---- Lighting ---- */
+/*
+Initialize the renderer light source
+*/
+void render_add_light_source
+	(
+	vec3	position,
+	vec4	color
+	)
+{
+render_init_light( &renderer.light_source, position, color );
+
+}
+
+
 /*
 Renderer size callback method
 */

@@ -18,7 +18,7 @@ vec3 camera_up        = { 0.0f, 1.0f,  0.0f };
 int main( void )
 {
  
-render_init( 500, 500 );
+render_init( 750, 750 );
 
 render_attach_camera( CAMERA_TYPE_XZ_KEYBOARD, camera_position, camera_target, camera_up );
 
@@ -26,7 +26,7 @@ render_cubes_tex_init
     ( 
     &cube_vertices_3p2t[ 0 ], 
     36, 
-    "D:\\Stuff\\Randomer\\Assets\\Textures\\container.jpg" 
+    "..\\..\\Assets\\Textures\\container.jpg" 
     );
 
 while( render_is_active() )
