@@ -19,8 +19,8 @@ typedef struct
 	unsigned int		uiEBO;
 	unsigned int		uiVAO;
 	unsigned int		shader_programs[ SHADER_PROGRAM_COUNT ];
-	mat4				view_mat;
 	mat4				proj_mat;
+	mat4				model_mat; /* Remove this ASAP */
 	unsigned int		texture;
 	Camera				camera;
 	Light_Source		light_source;
@@ -152,6 +152,15 @@ void render_add_light_source
 	(
 	vec3,
 	vec4
+	);
+
+
+/*
+Renders a light source
+*/
+void render_draw_light
+	(
+	void
 	);
 
 

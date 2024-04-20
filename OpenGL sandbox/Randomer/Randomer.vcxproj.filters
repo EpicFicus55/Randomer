@@ -6,6 +6,7 @@
     <ClCompile Include="renderer.c" />
     <ClCompile Include="shader_utils.c" />
     <ClCompile Include="camera_utils.c" />
+    <ClCompile Include="randomer_light.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="renderer.h" />
@@ -15,6 +16,7 @@
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="data.h" />
     <ClInclude Include="camera_utils.h" />
+    <ClInclude Include="randomer_light.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="triangles.frag">
@@ -33,6 +35,12 @@
       <Filter>glsl</Filter>
     </None>
     <None Include="cubes.vert">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="light_source.vert">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="light_source.frag">
       <Filter>glsl</Filter>
     </None>
   </ItemGroup>

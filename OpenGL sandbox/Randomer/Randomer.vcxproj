@@ -164,6 +164,7 @@
   <ItemGroup>
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="randomer_light.c" />
     <ClCompile Include="renderer.c" />
     <ClCompile Include="shader_utils.c" />
     <ClCompile Include="camera_utils.c" />
@@ -171,6 +172,7 @@
   <ItemGroup>
     <ClInclude Include="camera_utils.h" />
     <ClInclude Include="data.h" />
+    <ClInclude Include="randomer_light.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="shader_source.h" />
     <ClInclude Include="shader_utils.h" />
@@ -180,6 +182,8 @@
   <ItemGroup>
     <None Include="cubes.frag" />
     <None Include="cubes.vert" />
+    <None Include="light_source.frag" />
+    <None Include="light_source.vert" />
     <None Include="rectangles.frag" />
     <None Include="rectangles.vert" />
     <None Include="triangles.frag" />

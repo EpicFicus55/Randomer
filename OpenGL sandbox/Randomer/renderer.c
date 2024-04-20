@@ -17,6 +17,8 @@ void render_init
 	uint32_t	height
 	)
 {
+float _angle = 45.0f;
+
 /* Initialize the GLFW Window */
 glfwInit();
 glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 3 );
@@ -38,6 +40,16 @@ if ( !gladLoadGLLoader( (GLADloadproc)glfwGetProcAddress ) )
 /* Compile every shader program */
 render_compile_all_shaders();
 
+/* It makes sense to initialize the projection matrix here, right? */
+glm_mat4_identity( renderer.proj_mat );
+glm_perspective
+	( 
+	_angle,	
+	(float)( renderer.window_size.width / renderer.window_size.height ),
+	0.1f,
+	100.0f,
+	renderer.proj_mat
+	);
 
 }
 
@@ -264,7 +276,6 @@ void render_cubes_tex_init
 {
 int				_width, _height, _nr_channels;
 unsigned char*	_tex_data;
-mat4			_proj_mat, _model_mat;
 float			_angle = 45.0f;
 
 GL_CALL( glGenVertexArrays( 1, &renderer.uiVAO ) );
@@ -301,25 +312,12 @@ GL_CALL( glBindVertexArray( 0 ) );
 stbi_image_free( _tex_data );
 
 /* Set the uniforms */
-glm_mat4_identity( _proj_mat );
-glm_mat4_identity( _model_mat );
+glm_mat4_identity( renderer.model_mat );
 glm_make_rad( &_angle );
-
-glm_perspective
-	( 
-	_angle,	
-	(float)( renderer.window_size.width / renderer.window_size.height ),
-	0.1f,
-	100.0f,
-	_proj_mat
-	);
 
 _angle = -55.0f;
 glm_make_rad( &_angle );
-glm_rotate_x( _model_mat, _angle, _model_mat );
-
-shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uProjMat", _proj_mat );
-shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uModelMat", _model_mat );
+glm_rotate_x(renderer.model_mat, _angle, renderer.model_mat);
 
 }
 
@@ -335,7 +333,10 @@ void render_cubes_tex_draw
 
 GL_CALL( glClearColor( 0.2f, 0.3f, 0.3f, 1.0f ) );
 GL_CALL( glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ) );
+
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uProjMat", renderer.proj_mat );
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uViewMat", renderer.camera.view );
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uModelMat", renderer.model_mat );
 
 GL_CALL( glBindVertexArray( renderer.uiVAO ) );
 GL_CALL( glBindTexture( GL_TEXTURE_2D, renderer.texture ) );
@@ -379,6 +380,36 @@ void render_add_light_source
 	)
 {
 render_init_light( &renderer.light_source, position, color );
+
+}
+
+
+/*
+Renders a light source
+*/
+void render_draw_light
+	(
+	void
+	)
+{
+GL_CALL( glClearColor( 0.2f, 0.3f, 0.3f, 1.0f ) );
+GL_CALL( glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ) );
+
+GL_CALL( glBindVertexArray( renderer.light_source.VAO_handle ) );
+
+GL_CALL( glUseProgram( renderer.shader_programs[ SHADER_PROGRAM_CUBE_LIGHT ] ) );
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBE_LIGHT ], "uProjMat", renderer.proj_mat );
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBE_LIGHT ], "uViewMat", renderer.camera.view );
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBE_LIGHT ], "uModelMat", renderer.light_source.model_matrix );
+
+GL_CALL( glEnable( GL_DEPTH_TEST ) );
+
+GL_CALL( glDrawArrays( GL_TRIANGLES, 0, 36 ) );
+
+GL_CALL( glDisable( GL_DEPTH_TEST ) );
+
+GL_CALL( glUseProgram( 0 ) );
+GL_CALL( glBindVertexArray( 0 ) );
 
 }
 

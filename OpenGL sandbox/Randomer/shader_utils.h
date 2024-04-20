@@ -16,10 +16,11 @@ typedef enum
 	SHADER_PROGRAM_TRIANGLES,
 	SHADER_PROGRAM_RECTANGLES,
 	SHADER_PROGRAM_CUBES,
+	SHADER_PROGRAM_CUBE_LIGHT,
 
 	/* Must be last */
 	SHADER_PROGRAM_COUNT
-	}shader_program;
+	} shader_program;
 
 
 /*
