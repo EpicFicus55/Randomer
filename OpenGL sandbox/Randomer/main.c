@@ -8,20 +8,20 @@
 #include "data.h"
 
 
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
+const unsigned int SCR_WIDTH = 750;
+const unsigned int SCR_HEIGHT = 750;
 
 vec3 camera_position  = { 0.0f, 0.0f,  2.1f };
 vec3 camera_target    = { 0.0f, 0.0f, -1.0f };
 vec3 camera_up        = { 0.0f, 1.0f,  0.0f };
 
-vec3 light_pos        = { 1.2f, 1.0f, 2.0f };
+vec3 light_pos        = { 3.0f, 3.0f, -3.0f };
 vec4 light_color      = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 int main( void )
 {
  
-render_init( 750, 750 );
+render_init( SCR_WIDTH, SCR_HEIGHT );
 
 render_attach_camera( CAMERA_TYPE_XZ_KEYBOARD, camera_position, camera_target, camera_up );
 
@@ -38,7 +38,8 @@ while( render_is_active() )
     {
     render_process_input();
     
-    //render_draw_light();
+    render_clear_screen();
+    render_draw_light();
     render_cubes_tex_draw();
 
     render_draw_and_poll_events();

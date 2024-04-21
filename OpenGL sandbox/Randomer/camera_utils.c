@@ -2,7 +2,6 @@
 
 #include "camera_utils.h"
 
-
 static void camera_A_key_press_callback( Camera* );
 static void camera_D_key_press_callback( Camera* );
 

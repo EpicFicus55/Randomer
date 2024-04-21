@@ -81,6 +81,15 @@ void render_draw_and_poll_events
 	void
 	);
 
+/*
+Clears the screen to the selected
+clear color
+*/
+void render_clear_screen
+	(
+	void
+	);
+
 
 /* ---- Triangle drawing ---- */
 /*

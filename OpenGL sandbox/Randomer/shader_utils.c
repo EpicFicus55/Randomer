@@ -102,6 +102,25 @@ GL_CALL( glUseProgram( 0 ) );
 }
 
 /*
+Set a vec4 uniform.
+*/
+void shdr_set_vec4_uniform
+	(
+	unsigned int	shader,
+	const char*		name,
+	vec4			value
+	)
+{
+GLint _location = 0;
+
+GL_CALL( glUseProgram( shader ) );
+GL_CALL( _location = glGetUniformLocation( shader, name ) );
+GL_CALL( glUniform4fv( _location, 1, value ) );
+GL_CALL( glUseProgram( 0 ) );
+
+}
+
+/*
 Compiles a shader and updates 
 the handle.
 */

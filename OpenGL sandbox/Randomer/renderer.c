@@ -125,6 +125,22 @@ return !glfwWindowShouldClose( renderer.pWindow );
 }
 
 
+
+/*
+Clears the screen to the selected
+clear color
+*/
+void render_clear_screen
+	(
+	void
+	)
+{
+GL_CALL( glClearColor( 0.2f, 0.3f, 0.3f, 1.0f ) );
+GL_CALL( glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ) );
+
+}
+
+
 /*
 Render a set of triangles
 */
@@ -165,9 +181,6 @@ void render_triangles_draw
 	void
 	)
 {
-GL_CALL( glClearColor( 0.2f, 0.3f, 0.3f, 1.0f ) );
-GL_CALL( glClear( GL_COLOR_BUFFER_BIT ) );
-
 GL_CALL( glUseProgram( renderer.shader_programs[ SHADER_PROGRAM_TRIANGLES ] ) );
 GL_CALL( glBindVertexArray( renderer.uiVAO ) );
 
@@ -248,9 +261,6 @@ void render_rectangles_tex_draw
 	void
 	)
 {
-GL_CALL( glClearColor( 0.2f, 0.3f, 0.3f, 1.0f ) );
-GL_CALL( glClear( GL_COLOR_BUFFER_BIT ) );
-
 GL_CALL( glUseProgram( renderer.shader_programs[ SHADER_PROGRAM_RECTANGLES ] ) );
 GL_CALL( glBindVertexArray( renderer.uiVAO ) );
 GL_CALL( glBindTexture( GL_TEXTURE_2D, renderer.texture ) );
@@ -315,9 +325,9 @@ stbi_image_free( _tex_data );
 glm_mat4_identity( renderer.model_mat );
 glm_make_rad( &_angle );
 
-_angle = -55.0f;
-glm_make_rad( &_angle );
-glm_rotate_x(renderer.model_mat, _angle, renderer.model_mat);
+//_angle = -55.0f;
+//glm_make_rad( &_angle );
+//glm_rotate_x( renderer.model_mat, _angle, renderer.model_mat );
 
 }
 
@@ -330,10 +340,6 @@ void render_cubes_tex_draw
 	void
 	)
 {
-
-GL_CALL( glClearColor( 0.2f, 0.3f, 0.3f, 1.0f ) );
-GL_CALL( glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ) );
-
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uProjMat", renderer.proj_mat );
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uViewMat", renderer.camera.view );
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uModelMat", renderer.model_mat );
@@ -392,15 +398,13 @@ void render_draw_light
 	void
 	)
 {
-GL_CALL( glClearColor( 0.2f, 0.3f, 0.3f, 1.0f ) );
-GL_CALL( glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ) );
-
 GL_CALL( glBindVertexArray( renderer.light_source.VAO_handle ) );
 
-GL_CALL( glUseProgram( renderer.shader_programs[ SHADER_PROGRAM_CUBE_LIGHT ] ) );
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBE_LIGHT ], "uProjMat", renderer.proj_mat );
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBE_LIGHT ], "uViewMat", renderer.camera.view );
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBE_LIGHT ], "uModelMat", renderer.light_source.model_matrix );
+shdr_set_vec4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBE_LIGHT ], "uColor", renderer.light_source.color );
+GL_CALL( glUseProgram( renderer.shader_programs[ SHADER_PROGRAM_CUBE_LIGHT ] ) );
 
 GL_CALL( glEnable( GL_DEPTH_TEST ) );
 

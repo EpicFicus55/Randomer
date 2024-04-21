@@ -57,6 +57,16 @@ void shdr_set_mat4_uniform
 
 
 /*
+Set a vec4 uniform.
+*/
+void shdr_set_vec4_uniform
+	(
+	unsigned int	shader,
+	const char*		name,
+	vec4			value
+	);
+
+/*
 Compiles a shader and updates 
 the handle.
 */

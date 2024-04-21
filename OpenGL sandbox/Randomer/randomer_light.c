@@ -16,12 +16,14 @@ void render_init_light
 	vec4			color
 	)
 {
+vec3 _scale_vector[] = { 0.45f, 0.45f, 0.45f };
+
 /* Initialize the position and the model matrix*/
 memcpy( source->position, position, sizeof(source->position) );
 
 glm_mat4_identity( source->model_matrix );
-//glm_translate( source->model_matrix, source->position );
-glm_translate_x( source->model_matrix, 0.5f );
+glm_scale( source->model_matrix, _scale_vector );
+glm_translate( source->model_matrix, source->position );
 
 /* Initialize the color */
 memcpy( source->color, color, sizeof(source->color) );
