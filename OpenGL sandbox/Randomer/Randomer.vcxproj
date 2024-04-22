@@ -182,8 +182,10 @@
   <ItemGroup>
     <None Include="cubes.frag" />
     <None Include="cubes.vert" />
+    <None Include="phong.frag" />
     <None Include="light_source.frag" />
     <None Include="light_source.vert" />
+    <None Include="phong.vert" />
     <None Include="rectangles.frag" />
     <None Include="rectangles.vert" />
     <None Include="triangles.frag" />

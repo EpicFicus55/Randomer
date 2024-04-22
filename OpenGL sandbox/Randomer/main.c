@@ -17,6 +17,7 @@ vec3 camera_up        = { 0.0f, 1.0f,  0.0f };
 
 vec3 light_pos        = { 3.0f, 3.0f, -3.0f };
 vec4 light_color      = { 1.0f, 1.0f, 1.0f, 1.0f };
+float light_ambient_strength = 0.1f;
 
 int main( void )
 {
@@ -32,7 +33,7 @@ render_cubes_tex_init
     "..\\..\\Assets\\Textures\\container.jpg" 
     );
 
-render_add_light_source( light_pos, light_color );
+render_add_light_source( light_pos, light_color, light_ambient_strength );
 
 while( render_is_active() )
     {

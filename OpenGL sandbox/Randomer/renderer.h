@@ -160,7 +160,8 @@ Initialize the renderer light source
 void render_add_light_source
 	(
 	vec3,
-	vec4
+	vec4,
+	float
 	);
 
 

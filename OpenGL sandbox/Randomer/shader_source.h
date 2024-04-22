@@ -15,3 +15,7 @@
 /* Light source shader sources */
 #define LIGHT_VERTEX_SHADER_FILE	"light_source.vert"
 #define LIGHT_FRAGMENT_SHADER_FILE	"light_source.frag"
+
+/* Phong lighting model sources */
+#define PHONG_VERTEX_SHADER_FILE	"phong.vert"
+#define PHONG_FRAGMENT_SHADER_FILE	"phong.frag"

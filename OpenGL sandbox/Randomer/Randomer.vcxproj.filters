@@ -43,6 +43,12 @@
     <None Include="light_source.frag">
       <Filter>glsl</Filter>
     </None>
+    <None Include="phong.frag">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="phong.vert">
+      <Filter>glsl</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="glsl">

@@ -13,10 +13,13 @@ void render_init_light
 	(
 	Light_Source*	source,
 	vec3			position,
-	vec4			color
+	vec4			color,
+	float			ambient_strength
 	)
 {
 vec3 _scale_vector[] = { 0.45f, 0.45f, 0.45f };
+
+source->ambient_strength = ambient_strength;
 
 /* Initialize the position and the model matrix*/
 memcpy( source->position, position, sizeof(source->position) );

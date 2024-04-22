@@ -8,6 +8,7 @@ typedef struct
 	mat4			model_matrix;
 	unsigned int	VAO_handle;
 	unsigned int	VBO_handle;
+	float			ambient_strength;
 	} Light_Source;
 
 /*
@@ -17,6 +18,7 @@ void render_init_light
 	(
 	Light_Source*	source,
 	vec3			position,
-	vec4			color
+	vec4			color,
+	float			ambient_strength
 	);
 
