@@ -281,54 +281,19 @@ void render_cubes_tex_init
 	(
 	float*			vertex_data,
 	unsigned int	count,
-	char*			tex_name
+	char*			tex_name,
+	vec3			pos
 	)
 {
-int				_width, _height, _nr_channels;
-unsigned char*	_tex_data;
-float			_angle = 45.0f;
-
-GL_CALL( glGenVertexArrays( 1, &renderer.uiVAO ) );
-GL_CALL( glGenBuffers( 1, &renderer.uiVBO ) );
-
-/* Create the texture */
-GL_CALL( glGenTextures( 1, &renderer.texture ) );
-GL_CALL( glBindTexture( GL_TEXTURE_2D, renderer.texture ) );
-GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT) );	
-GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT) );
-GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR) );
-GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR) );
-
-_tex_data = stbi_load( tex_name, &_width, &_height, &_nr_channels, 0 );
-GL_CALL( glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, _width, _height, 0, GL_RGB, GL_UNSIGNED_BYTE, _tex_data ) );
-GL_CALL( glBindTexture( GL_TEXTURE_2D, 0 ) );
-
-/* Load the vertex data */
-GL_CALL( glBindVertexArray( renderer.uiVAO ) );
-GL_CALL( glBindBuffer( GL_ARRAY_BUFFER, renderer.uiVBO ) );
-
-GL_CALL( glBufferData( GL_ARRAY_BUFFER, sizeof(vertex_data[0]) * count * 5, &vertex_data[ 0 ], GL_STATIC_DRAW ) );
-
-GL_CALL( glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex_data[0]) * 5, NULL ) );
-GL_CALL( glEnableVertexAttribArray( 0 ) );
-
-GL_CALL( glVertexAttribPointer( 1, 2, GL_FLOAT, GL_FALSE, sizeof(vertex_data[0]) * 5, (void*)(sizeof(float) * 3 ) ) );
-GL_CALL( glEnableVertexAttribArray( 1 ) );
-
-/* Initialize the matrix */
-GL_CALL( glBindBuffer( GL_ARRAY_BUFFER, 0 ) );
-GL_CALL( glBindVertexArray( 0 ) );
-
-stbi_image_free( _tex_data );
-
-/* Set the uniforms */
-glm_mat4_identity( renderer.model_mat );
-glm_make_rad( &_angle );
-
-//_angle = -55.0f;
-//glm_make_rad( &_angle );
-//glm_rotate_x( renderer.model_mat, _angle, renderer.model_mat );
-
+cube_init
+	( 
+	&renderer.cube, 
+	VERTEX_POSITION_BIT | TEXTURE_COORDS_BIT, 
+	pos, 
+	tex_name, 
+	36, 
+	vertex_data 
+	);
 }
 
 
@@ -340,22 +305,15 @@ void render_cubes_tex_draw
 	void
 	)
 {
+
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uProjMat", renderer.proj_mat );
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uViewMat", renderer.camera.view );
-shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uModelMat", renderer.model_mat );
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_CUBES ], "uModelMat", renderer.cube.model_mat );
 
-GL_CALL( glBindVertexArray( renderer.uiVAO ) );
-GL_CALL( glBindTexture( GL_TEXTURE_2D, renderer.texture ) );
 GL_CALL( glUseProgram( renderer.shader_programs[ SHADER_PROGRAM_CUBES ] ) );
-
-GL_CALL( glEnable( GL_DEPTH_TEST ) );
-
-GL_CALL( glDrawArrays( GL_TRIANGLES, 0, 36 ) );
-
-GL_CALL( glDisable( GL_DEPTH_TEST ) );
-
+cube_render( &renderer.cube );
 GL_CALL( glUseProgram( 0 ) );
-GL_CALL( glBindVertexArray( 0 ) );
+
 
 }
 

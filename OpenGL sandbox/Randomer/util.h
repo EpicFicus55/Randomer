@@ -23,3 +23,10 @@ typedef struct
 	uint32_t width;
 	uint32_t height;
 	} window_size32_t;
+
+typedef enum
+	{
+	VERTEX_POSITION_BIT = 1,
+	COLOR_BIT			= 2,
+	TEXTURE_COORDS_BIT	= 4
+	} vertex_attrib_enum;

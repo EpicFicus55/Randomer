@@ -162,6 +162,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="randomer_cube.c" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="randomer_light.c" />
@@ -172,6 +173,7 @@
   <ItemGroup>
     <ClInclude Include="camera_utils.h" />
     <ClInclude Include="data.h" />
+    <ClInclude Include="randomer_cube.h" />
     <ClInclude Include="randomer_light.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="shader_source.h" />

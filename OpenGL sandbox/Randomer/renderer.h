@@ -9,6 +9,7 @@
 #include "shader_utils.h"
 #include "camera_utils.h"
 #include "randomer_light.h"
+#include "randomer_cube.h"
 #include "cglm/cglm.h"
 
 typedef struct 
@@ -20,10 +21,10 @@ typedef struct
 	unsigned int		uiVAO;
 	unsigned int		shader_programs[ SHADER_PROGRAM_COUNT ];
 	mat4				proj_mat;
-	mat4				model_mat; /* Remove this ASAP */
 	unsigned int		texture;
 	Camera				camera;
 	Light_Source		light_source;
+	Cube_Type			cube;
 	} Renderer;
 
 /* 
@@ -141,7 +142,8 @@ void render_cubes_tex_init
 	(
 	float*,
 	unsigned int,
-	char*
+	char*,
+	vec3
 	);
 
 /* 

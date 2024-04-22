@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "renderer.h"
+#include "randomer_cube.h"
 #include "camera_utils.h"
 #include "data.h"
 
@@ -19,6 +20,8 @@ vec3 light_pos        = { 3.0f, 3.0f, -3.0f };
 vec4 light_color      = { 1.0f, 1.0f, 1.0f, 1.0f };
 float light_ambient_strength = 0.1f;
 
+vec3    cube_pos = { 0.0f, 0.0f, 0.0f };
+
 int main( void )
 {
  
@@ -27,10 +30,11 @@ render_init( SCR_WIDTH, SCR_HEIGHT );
 render_attach_camera( CAMERA_TYPE_XZ_KEYBOARD, camera_position, camera_target, camera_up );
 
 render_cubes_tex_init
-    ( 
+    (
     &cube_vertices_3p2t[ 0 ], 
     36, 
-    "..\\..\\Assets\\Textures\\container.jpg" 
+    "..\\..\\Assets\\Textures\\container.jpg",
+    cube_pos
     );
 
 render_add_light_source( light_pos, light_color, light_ambient_strength );
