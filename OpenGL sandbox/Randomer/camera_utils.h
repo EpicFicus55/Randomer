@@ -40,6 +40,8 @@ typedef struct
 		/* Callbacks */
 		Camera_Key_Callback pfn_A_key_callback;
 		Camera_Key_Callback pfn_D_key_callback;
+		Camera_Key_Callback pfn_W_key_callback;
+		Camera_Key_Callback pfn_S_key_callback;
 
 		} Camera;
 

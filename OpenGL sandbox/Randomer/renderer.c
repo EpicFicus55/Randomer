@@ -446,6 +446,20 @@ if( glfwGetKey( renderer.pWindow, GLFW_KEY_D ) == GLFW_PRESS )
 		renderer.camera.pfn_D_key_callback( &renderer.camera );
 		}
 	}
+if( glfwGetKey( renderer.pWindow, GLFW_KEY_W ) == GLFW_PRESS )
+	{
+	if( renderer.camera.pfn_W_key_callback )
+		{
+		renderer.camera.pfn_W_key_callback( &renderer.camera );
+		}
+	}
+if( glfwGetKey( renderer.pWindow, GLFW_KEY_S ) == GLFW_PRESS )
+	{
+	if( renderer.camera.pfn_S_key_callback )
+		{
+		renderer.camera.pfn_S_key_callback( &renderer.camera );
+		}
+	}
 
 update_camera( &renderer.camera );
 
