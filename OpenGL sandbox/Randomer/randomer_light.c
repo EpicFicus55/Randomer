@@ -17,7 +17,7 @@ void render_init_light
 	float			ambient_strength
 	)
 {
-vec3 _scale_vector[] = { 0.45f, 0.45f, 0.45f };
+vec3 _scale_vector = { 0.45f, 0.45f, 0.45f };
 
 source->ambient_strength = ambient_strength;
 

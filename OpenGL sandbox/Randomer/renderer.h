@@ -16,12 +16,12 @@ typedef struct
 	{
 	window_size32_t		window_size;
 	GLFWwindow*			pWindow;
-	unsigned int		uiVBO;
-	unsigned int		uiEBO;
-	unsigned int		uiVAO;
+	unsigned int		uiVBO; /* Needs to be removed */
+	unsigned int		uiEBO;/* Needs to be removed */
+	unsigned int		uiVAO;/* Needs to be removed */
 	unsigned int		shader_programs[ SHADER_PROGRAM_COUNT ];
 	mat4				proj_mat;
-	unsigned int		texture;
+	unsigned int		texture; /* Needs to be removed */
 	Camera				camera;
 	Light_Source		light_source;
 	Cube_Type			cube;
@@ -150,6 +150,15 @@ void render_cubes_tex_init
 Render the rectangles.
 */
 void render_cubes_tex_draw
+	(
+	void
+	);
+
+
+/* 
+Render the rectangles with lighting.
+*/
+void render_cubes_tex_light_draw
 	(
 	void
 	);

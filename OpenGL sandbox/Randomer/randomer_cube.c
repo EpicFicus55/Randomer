@@ -17,6 +17,7 @@ void cube_init
 int				_stride = 0;
 int				_color_offset = 0;
 int				_tex_offset = 0;
+int				_normal_vec_offset = 0;
 int				_tex_width = 0;
 int				_tex_height = 0;
 int				_tex_nr_channels = 0;
@@ -44,17 +45,20 @@ GL_CALL( glGenBuffers( 1, &cube->VBO_handle ) );
 /* I'm going to make some assumptions 
 	- 3 floats for the vertex positions
 	- 4 floats for the color
-	- 2 floats for the tex coordinates */
+	- 2 floats for the tex coordinates 
+	- 3 floats for the normal vectors */
 if( attrib_bitmask & VERTEX_POSITION_BIT )
 	{
 	_stride += 3;
 	_color_offset += 3;
 	_tex_offset += 3;
+	_normal_vec_offset += 3;
 	}
 if( attrib_bitmask & COLOR_BIT )
 	{
 	_stride += 4;
 	_tex_offset += 4;
+	_normal_vec_offset += 4;
 	}
 if( attrib_bitmask & TEXTURE_COORDS_BIT )
 	{
@@ -73,6 +77,12 @@ if( attrib_bitmask & TEXTURE_COORDS_BIT )
 	stbi_image_free( _tex_data );
 
 	_stride += 2;
+	_normal_vec_offset += 2;
+	}
+
+if( attrib_bitmask & NORMAL_VEC_BIT )
+	{
+	_stride += 3;
 	}
 
 GL_CALL( glBindVertexArray( cube->VAO_handle ) );
@@ -97,6 +107,12 @@ if( attrib_bitmask & TEXTURE_COORDS_BIT )
 	{
 	GL_CALL( glVertexAttribPointer( 2, 2, GL_FLOAT, GL_FALSE, sizeof( data[0] ) * _stride, (void*)(sizeof(float) * _tex_offset) ) );
 	GL_CALL( glEnableVertexAttribArray( 2 ) );
+	}
+
+if( attrib_bitmask & NORMAL_VEC_BIT )
+	{
+	GL_CALL( glVertexAttribPointer( 3, 3, GL_FLOAT, GL_FALSE, sizeof( data[0] ) * _stride, (void*)(sizeof(float) * _normal_vec_offset) ) );
+	GL_CALL( glEnableVertexAttribArray( 3 ) );
 	}
 
 /* Final cleanup */

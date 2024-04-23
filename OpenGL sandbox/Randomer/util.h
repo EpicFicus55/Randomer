@@ -28,5 +28,6 @@ typedef enum
 	{
 	VERTEX_POSITION_BIT = 1,
 	COLOR_BIT			= 2,
-	TEXTURE_COORDS_BIT	= 4
+	TEXTURE_COORDS_BIT	= 4,
+	NORMAL_VEC_BIT		= 8
 	} vertex_attrib_enum;

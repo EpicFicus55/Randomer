@@ -17,7 +17,7 @@ typedef enum
 	SHADER_PROGRAM_RECTANGLES,
 	SHADER_PROGRAM_CUBES,
 	SHADER_PROGRAM_CUBE_LIGHT,
-	//SHADER_PROGRAM_PHONG,
+	SHADER_PROGRAM_PHONG,
 
 	/* Must be last */
 	SHADER_PROGRAM_COUNT
@@ -47,6 +47,17 @@ void shdr_set_bool_uniform
 
 
 /*
+Set a float uniform.
+*/
+void shdr_set_float_uniform
+	(
+	unsigned int	shader,
+	const char*		name,
+	float			value
+	);
+
+
+/*
 Set a mat4 uniform.
 */
 void shdr_set_mat4_uniform
@@ -66,6 +77,18 @@ void shdr_set_vec4_uniform
 	const char*		name,
 	vec4			value
 	);
+
+
+/*
+Set a vec3 uniform.
+*/
+void shdr_set_vec3_uniform
+	(
+	unsigned int	shader,
+	const char*		name,
+	vec4			value
+	);
+
 
 /*
 Compiles a shader and updates 

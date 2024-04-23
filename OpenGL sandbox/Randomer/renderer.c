@@ -288,7 +288,7 @@ void render_cubes_tex_init
 cube_init
 	( 
 	&renderer.cube, 
-	VERTEX_POSITION_BIT | TEXTURE_COORDS_BIT, 
+	VERTEX_POSITION_BIT | TEXTURE_COORDS_BIT | NORMAL_VEC_BIT, 
 	pos, 
 	tex_name, 
 	36, 
@@ -314,6 +314,31 @@ GL_CALL( glUseProgram( renderer.shader_programs[ SHADER_PROGRAM_CUBES ] ) );
 cube_render( &renderer.cube );
 GL_CALL( glUseProgram( 0 ) );
 
+}
+
+
+/* 
+Render the rectangles with lighting.
+*/
+void render_cubes_tex_light_draw
+	(
+	void
+	)
+{
+/* Set up the matrices */
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uProjMat", renderer.proj_mat );
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uViewMat", renderer.camera.view );
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uModelMat", renderer.cube.model_mat );
+
+/* Set up the light */
+shdr_set_float_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uAmbientStrength", renderer.light_source.ambient_strength );
+shdr_set_vec4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uLightColor", renderer.light_source.color );
+shdr_set_vec3_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uLightPosition", renderer.light_source.position );
+
+/* Render the cube */
+GL_CALL( glUseProgram( renderer.shader_programs[ SHADER_PROGRAM_PHONG ] ) );
+cube_render( &renderer.cube );
+GL_CALL( glUseProgram( 0 ) );
 
 }
 

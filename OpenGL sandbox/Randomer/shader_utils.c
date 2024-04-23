@@ -13,7 +13,7 @@ vert_frag_type vertex_fragment_shaders[] =
 		{ RECTANGLES_VERTEX_SHADER_FILE,	RECTANGLES_FRAGMENT_SHADER_FILE },
 		{ CUBES_VERTEX_SHADER_FILE,			CUBES_FRAGMENT_SHADER_FILE },
 		{ LIGHT_VERTEX_SHADER_FILE,			LIGHT_FRAGMENT_SHADER_FILE },
-		{ CUBES_VERTEX_SHADER_FILE,			PHONG_FRAGMENT_SHADER_FILE }
+		{ PHONG_VERTEX_SHADER_FILE,			PHONG_FRAGMENT_SHADER_FILE }
 	};
 
 /*
@@ -52,7 +52,7 @@ GL_CALL( glLinkProgram( *shdr_prog ) );
 GL_CALL( glGetProgramiv( *shdr_prog, GL_LINK_STATUS, &_success ) );
 if ( !_success )
 	{
-	glGetShaderInfoLog( *shdr_prog, sizeof(_info_log), NULL, _info_log );
+	glGetProgramInfoLog( *shdr_prog, sizeof(_info_log), NULL, _info_log );
 	printf( "Linking of the shader program failed: %s\n", _info_log );
 	}
 
@@ -78,6 +78,26 @@ GLint _location = 0;
 GL_CALL( glUseProgram( shader ) );
 GL_CALL( _location = glGetUniformLocation( shader, name ) );
 GL_CALL( glUniform1i( _location, value ) );
+GL_CALL( glUseProgram( 0 ) );
+
+}
+
+
+/*
+Set a float uniform.
+*/
+void shdr_set_float_uniform
+	(
+	unsigned int	shader,
+	const char*		name,
+	float			value
+	)
+{
+GLint _location = 0;
+
+GL_CALL( glUseProgram( shader ) );
+GL_CALL( _location = glGetUniformLocation( shader, name ) );
+GL_CALL( glUniform1f( _location, value ) );
 GL_CALL( glUseProgram( 0 ) );
 
 }
@@ -117,6 +137,26 @@ GLint _location = 0;
 GL_CALL( glUseProgram( shader ) );
 GL_CALL( _location = glGetUniformLocation( shader, name ) );
 GL_CALL( glUniform4fv( _location, 1, value ) );
+GL_CALL( glUseProgram( 0 ) );
+
+}
+
+
+/*
+Set a vec3 uniform.
+*/
+void shdr_set_vec3_uniform
+	(
+	unsigned int	shader,
+	const char*		name,
+	vec4			value
+	)
+{
+GLint _location = 0;
+
+GL_CALL( glUseProgram( shader ) );
+GL_CALL( _location = glGetUniformLocation( shader, name ) );
+GL_CALL( glUniform3fv( _location, 1, value ) );
 GL_CALL( glUseProgram( 0 ) );
 
 }
