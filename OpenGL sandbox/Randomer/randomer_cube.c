@@ -35,6 +35,7 @@ memcpy( cube->pos, pos, sizeof(cube->pos) );
 
 glm_mat4_identity( cube->model_mat );
 glm_translate( cube->model_mat, cube->pos );
+glm_rotate_y( cube->model_mat, 0.5f, cube->model_mat );
 
 cube->vertex_count = vertex_count;
 
@@ -70,8 +71,10 @@ if( attrib_bitmask & TEXTURE_COORDS_BIT )
 	GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR) );
 	GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR) );
 
+	stbi_set_flip_vertically_on_load( true );
+
 	_tex_data = stbi_load( tex_path, &_tex_width, &_tex_height, &_tex_nr_channels, 0 );
-	GL_CALL( glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, _tex_width, _tex_height, 0, GL_RGB, GL_UNSIGNED_BYTE, _tex_data ) );
+	GL_CALL( glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, _tex_width, _tex_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _tex_data ) );
 	GL_CALL( glBindTexture( GL_TEXTURE_2D, 0 ) );
 	
 	stbi_image_free( _tex_data );

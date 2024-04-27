@@ -460,6 +460,20 @@ if( glfwGetKey( renderer.pWindow, GLFW_KEY_S ) == GLFW_PRESS )
 		renderer.camera.pfn_S_key_callback( &renderer.camera );
 		}
 	}
+if( glfwGetKey( renderer.pWindow, GLFW_KEY_SPACE ) == GLFW_PRESS )
+	{
+	if( renderer.camera.pfn_Space_key_callback )
+		{
+		renderer.camera.pfn_Space_key_callback( &renderer.camera );
+		}
+	}
+if( glfwGetKey( renderer.pWindow, GLFW_KEY_LEFT_SHIFT ) == GLFW_PRESS )
+	{
+	if( renderer.camera.pfn_Shift_key_callback )
+		{
+		renderer.camera.pfn_Shift_key_callback( &renderer.camera );
+		}
+	}
 
 update_camera( &renderer.camera );
 

@@ -27,13 +27,13 @@ int main( void )
  
 render_init( SCR_WIDTH, SCR_HEIGHT );
 
-render_attach_camera( CAMERA_TYPE_XZ_KEYBOARD, camera_position, camera_target, camera_up );
+render_attach_camera( CAMERA_TYPE_XYZ_KEYBOARD, camera_position, camera_target, camera_up );
 
 render_cubes_tex_init
     (
     &cube_vertices_3p2t3n[ 0 ], 
     36, 
-    "..\\..\\Assets\\Textures\\container.jpg",
+    "..\\..\\Assets\\Textures\\bricks.png",
     cube_pos
     );
 

@@ -4,7 +4,7 @@
 typedef enum
 	{
 	CAMERA_TYPE_STATIONARY_NONE,
-	CAMERA_TYPE_XZ_KEYBOARD,
+	CAMERA_TYPE_XYZ_KEYBOARD,
 	CAMERA_TYPE_XYZ_KEYBOARD_MOUSE,
 
 	/* Must be last */
@@ -42,6 +42,8 @@ typedef struct
 		Camera_Key_Callback pfn_D_key_callback;
 		Camera_Key_Callback pfn_W_key_callback;
 		Camera_Key_Callback pfn_S_key_callback;
+		Camera_Key_Callback pfn_Space_key_callback;
+		Camera_Key_Callback pfn_Shift_key_callback;
 
 		} Camera;
 

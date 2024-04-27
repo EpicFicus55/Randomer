@@ -6,6 +6,8 @@ static void camera_A_key_press_callback( Camera* );
 static void camera_D_key_press_callback( Camera* );
 static void camera_W_key_press_callback( Camera* );
 static void camera_S_key_press_callback( Camera* );
+static void camera_Space_key_press_callback( Camera* );
+static void camera_Shift_key_press_callback( Camera* );
 
 
 /*
@@ -44,12 +46,14 @@ switch( camera_type )
 		/* This is just a stationary view pointing to a target. */
 		/* No callbacks necessary. */
 		break;
-	case CAMERA_TYPE_XZ_KEYBOARD:
+	case CAMERA_TYPE_XYZ_KEYBOARD:
 		/* Can move along the X and Z directions using WASD. */
 		camera->pfn_A_key_callback = &( camera_A_key_press_callback );
 		camera->pfn_D_key_callback = &( camera_D_key_press_callback );
 		camera->pfn_W_key_callback = &( camera_W_key_press_callback );
 		camera->pfn_S_key_callback = &( camera_S_key_press_callback );
+		camera->pfn_Space_key_callback = &( camera_Space_key_press_callback );
+		camera->pfn_Shift_key_callback = &( camera_Shift_key_press_callback );
 		break;
 	case CAMERA_TYPE_XYZ_KEYBOARD_MOUSE:
 		break;
@@ -151,5 +155,36 @@ memset( _aux, 0, sizeof(_aux) );
 glm_vec3_scale( camera->camera_front, -camera->camera_speed, _aux );
 //glm_normalize( _aux ); // is this needed ????
 glm_vec3_add( camera->camera_pos, _aux, camera->camera_pos );
+
+}
+
+
+static void camera_Space_key_press_callback
+	(
+	Camera* camera
+	)
+{
+vec3 _aux;
+
+memset( _aux, 0, sizeof(_aux) );
+
+//glm_normalize( _aux ); // is this needed ????
+camera->camera_pos[ 1 ] += camera->camera_speed;
+//glm_vec3_scale( camera->camera_pos, camera->camera_speed, camera->camera_pos );
+
+}
+
+static void camera_Shift_key_press_callback
+	(
+	Camera* camera
+	)
+{
+vec3 _aux;
+
+memset( _aux, 0, sizeof(_aux) );
+
+//glm_normalize( _aux ); // is this needed ????
+camera->camera_pos[ 1 ] -= camera->camera_speed;
+//glm_vec3_scale( camera->camera_pos, camera->camera_speed, camera->camera_pos );
 
 }
