@@ -7,6 +7,7 @@ layout (location = 3) in vec3 aNormal;
 uniform mat4 uProjMat;
 uniform mat4 uViewMat;
 uniform mat4 uModelMat;
+uniform mat4 uNormalMat;
 
 out vec2 vTexCoord;
 out vec3 vNormal;
@@ -25,6 +26,6 @@ vFragPos = vec3( uModelMat * vec4( aPos, 1.0f ) );
 
 vTexCoord = aTex;
 
-vNormal = aNormal;
+vNormal = mat3(uNormalMat) * aNormal;
 
 }

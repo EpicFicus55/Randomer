@@ -325,6 +325,8 @@ void render_cubes_tex_light_draw
 	void
 	)
 {
+mat4	_normal_matrix;
+
 /* Set up the matrices */
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uProjMat", renderer.proj_mat );
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uViewMat", renderer.camera.view );
@@ -334,6 +336,16 @@ shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uModel
 shdr_set_float_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uAmbientStrength", renderer.light_source.ambient_strength );
 shdr_set_vec4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uLightColor", renderer.light_source.color );
 shdr_set_vec3_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uLightPosition", renderer.light_source.position );
+
+/* Calculate the Normal matrix 
+- note that we must use it in the shader as a 3x3 mat */
+glm_mat4_identity( _normal_matrix );
+glm_mat4_inv( _normal_matrix, _normal_matrix );
+glm_mat4_transpose( _normal_matrix );
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uNormalMat", _normal_matrix );
+
+/* Set the camera position for specular highlights */
+shdr_set_vec3_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uCameraPos", renderer.camera.camera_pos );
 
 /* Render the cube */
 GL_CALL( glUseProgram( renderer.shader_programs[ SHADER_PROGRAM_PHONG ] ) );

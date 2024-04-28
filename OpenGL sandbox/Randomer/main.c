@@ -16,7 +16,7 @@ vec3 camera_position  = { 0.5f, 0.5f,  2.1f };
 vec3 camera_target    = { 0.0f, 0.0f, -1.0f };
 vec3 camera_up        = { 0.0f, 1.0f,  0.0f };
 
-vec3 light_pos        = { 3.0f, 3.0f, 3.0f };
+vec3 light_pos        = { 3.0f, 3.0f, -3.0f };
 vec4 light_color      = { 1.0f, 1.0f, 1.0f, 1.0f };
 float light_ambient_strength = 0.1f;
 
