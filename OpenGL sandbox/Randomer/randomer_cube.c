@@ -37,6 +37,12 @@ glm_mat4_identity( cube->model_mat );
 glm_translate( cube->model_mat, cube->pos );
 glm_rotate_y( cube->model_mat, 0.5f, cube->model_mat );
 
+/* Set the material lighting parameters */
+memcpy( cube->material.ambient, material_ambient, sizeof(vec3) );
+memcpy( cube->material.diffuse, material_diffuse, sizeof(vec3) );
+memcpy( cube->material.specular, material_specular, sizeof(vec3) );
+cube->material.shininess = 0.4f;
+
 cube->vertex_count = vertex_count;
 
 /* Create the VAO and VBO for the cube */

@@ -12,7 +12,13 @@ typedef struct
 	vec3			pos;
 	char			attrib_bitmask;
 	char*			tex_path;
+	Material_Type	material;
 	} Cube_Type;
+
+
+static float material_ambient[ 3 ] = { 0.3f, 0.3f, 0.3f };
+static float material_diffuse[ 3 ] = { 1.0f, 0.5f, 0.32f };
+static float material_specular[ 3 ] = { 1.0f, 1.0f, 1.0f };
 
 
 /* 

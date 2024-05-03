@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <glad/glad.h>
 
+#include "cglm/cglm.h"
+
 #ifdef _DEBUG
     #define GL_CALL( glStmt ) do {																	\
 			glGetError();																			\
@@ -23,6 +25,14 @@ typedef struct
 	uint32_t width;
 	uint32_t height;
 	} window_size32_t;
+
+typedef struct
+	{
+	vec3	ambient;
+	vec3	diffuse;
+	vec3	specular;
+	float	shininess;
+	} Material_Type;
 
 typedef enum
 	{

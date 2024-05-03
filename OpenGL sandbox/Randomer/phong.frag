@@ -1,25 +1,35 @@
 #version 330 core
 
+struct Material 
+    {
+    vec3    ambient;
+    vec3    diffuse;
+    vec3    specular;
+    float   shininess;
+    }; 
+
 in vec2 vTexCoord;
 in vec3 vNormal;
 in vec3 vFragPos;
 
-uniform float	uAmbientStrength;
-uniform vec4	uLightColor;
-uniform vec3	uLightPosition;
-uniform vec3	uCameraPos;
+uniform float	    uAmbientStrength;
+uniform vec4	    uLightColor;
+uniform vec3	    uLightPosition;
+uniform Material    uMaterial;
+uniform vec3	    uCameraPos;
 
-uniform sampler2D uTexture;
+uniform sampler2D   uTexture;
 
 out vec4 FragColor;
 
 void main()
 {
-vec4 _ambient_color = uLightColor * uAmbientStrength;
+// TODO: Clean all this mess up
+vec4 _ambient_color = uLightColor * vec4( uMaterial.ambient, 0.0f );
 vec3 _normal		= normalize( vNormal );
 vec3 _light_dir		= normalize( uLightPosition - vFragPos ); 
 float _theta		= max( dot( _normal, _light_dir ), 0.0f );
-vec4 _diffuse		= _theta *  uLightColor;
+vec4 _diffuse		= _theta * ( uLightColor * vec4( uMaterial.diffuse, 0.0f ) );
 
 /* Calculate specular highlights */
 vec3	_viewDir = normalize( uCameraPos - vFragPos );

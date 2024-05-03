@@ -73,7 +73,7 @@ camera_init
 	camera_target,
 	camera_up
 	);
-renderer.camera.camera_speed = 0.01f;
+renderer.camera.camera_speed = 0.005f;
 
 }
 
@@ -336,6 +336,11 @@ shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uModel
 shdr_set_float_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uAmbientStrength", renderer.light_source.ambient_strength );
 shdr_set_vec4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uLightColor", renderer.light_source.color );
 shdr_set_vec3_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uLightPosition", renderer.light_source.position );
+
+/* Set the material properties */
+shdr_set_vec3_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uMaterial.ambient", renderer.cube.material.ambient );
+shdr_set_vec3_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uMaterial.diffuse", renderer.cube.material.diffuse );
+shdr_set_vec3_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uMaterial.specular", renderer.cube.material.specular );
 
 /* Calculate the Normal matrix 
 - note that we must use it in the shader as a 3x3 mat */
