@@ -33,7 +33,8 @@ render_cubes_tex_init
     (
     &cube_vertices_3p2t3n[ 0 ], 
     36, 
-    "..\\..\\Assets\\Textures\\bricks.png",
+    "..\\..\\Assets\\Textures\\container2.png",
+    "..\\..\\Assets\\Textures\\container2_specular.png",
     cube_pos
     );
 

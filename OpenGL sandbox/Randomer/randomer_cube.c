@@ -9,7 +9,8 @@ void cube_init
 	Cube_Type*	cube,
 	char		attrib_bitmask,
 	vec3		pos,
-	char*		tex_path,
+	char*		diffuse_tex,
+	char*		specular_tex,
 	int			vertex_count,
 	float*		data
 	)
@@ -70,8 +71,17 @@ if( attrib_bitmask & COLOR_BIT )
 if( attrib_bitmask & TEXTURE_COORDS_BIT )
 	{
 	/* Create the texture, if necessary */
-	GL_CALL( glGenTextures( 1, &cube->tex_handle) );
-	GL_CALL( glBindTexture( GL_TEXTURE_2D, cube->tex_handle ) );
+	GL_CALL( glActiveTexture( GL_TEXTURE0 ) );
+	GL_CALL( glGenTextures( 1, &cube->diffuse_tex_handle) );
+	GL_CALL( glBindTexture( GL_TEXTURE_2D, cube->diffuse_tex_handle) );
+	GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT) );	
+	GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT) );
+	GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR) );
+	GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR) );
+
+	GL_CALL( glActiveTexture( GL_TEXTURE1 ) );
+	GL_CALL( glGenTextures( 1, &cube->specular_tex_handle) );
+	GL_CALL( glBindTexture( GL_TEXTURE_2D, cube->specular_tex_handle) );
 	GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT) );	
 	GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT) );
 	GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR) );
@@ -79,10 +89,16 @@ if( attrib_bitmask & TEXTURE_COORDS_BIT )
 
 	stbi_set_flip_vertically_on_load( true );
 
-	_tex_data = stbi_load( tex_path, &_tex_width, &_tex_height, &_tex_nr_channels, 0 );
+	_tex_data = stbi_load( diffuse_tex, &_tex_width, &_tex_height, &_tex_nr_channels, 0 );
+	GL_CALL( glActiveTexture( GL_TEXTURE0 ) );
 	GL_CALL( glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, _tex_width, _tex_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _tex_data ) );
 	GL_CALL( glBindTexture( GL_TEXTURE_2D, 0 ) );
-	
+	stbi_image_free( _tex_data );
+
+	_tex_data = stbi_load( specular_tex, &_tex_width, &_tex_height, &_tex_nr_channels, 0 );
+	GL_CALL( glActiveTexture( GL_TEXTURE1 ) );
+	GL_CALL( glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, _tex_width, _tex_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, _tex_data ) );
+	GL_CALL( glBindTexture( GL_TEXTURE_2D, 0 ) );
 	stbi_image_free( _tex_data );
 
 	_stride += 2;
@@ -138,7 +154,11 @@ void cube_render
 	)
 {
 GL_CALL( glBindVertexArray( cube->VAO_handle ) );
-GL_CALL( glBindTexture( GL_TEXTURE_2D, cube->tex_handle ) );
+GL_CALL( glActiveTexture( GL_TEXTURE0 ) );
+GL_CALL( glBindTexture( GL_TEXTURE_2D, cube->diffuse_tex_handle ) );
+
+GL_CALL( glActiveTexture( GL_TEXTURE1 ) );
+GL_CALL( glBindTexture( GL_TEXTURE_2D, cube->specular_tex_handle) );
 
 GL_CALL( glEnable( GL_DEPTH_TEST ) );
 GL_CALL( glDrawArrays( GL_TRIANGLES, 0, cube->vertex_count ) );

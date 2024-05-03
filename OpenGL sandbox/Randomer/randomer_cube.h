@@ -6,7 +6,8 @@ typedef struct
 	{
 	unsigned int	VAO_handle;
 	unsigned int	VBO_handle;
-	unsigned int	tex_handle;
+	unsigned int	diffuse_tex_handle;
+	unsigned int	specular_tex_handle;
 	int				vertex_count;
 	mat4			model_mat;
 	vec3			pos;
@@ -17,7 +18,7 @@ typedef struct
 
 
 static float material_ambient[ 3 ] = { 0.3f, 0.3f, 0.3f };
-static float material_diffuse[ 3 ] = { 1.0f, 0.5f, 0.32f };
+static float material_diffuse[ 3 ] = { 1.0f, 1.0f, 1.0f };
 static float material_specular[ 3 ] = { 1.0f, 1.0f, 1.0f };
 
 
@@ -29,7 +30,8 @@ void cube_init
 	Cube_Type*	cube,
 	char		attrib_bitmask,
 	vec3		pos,
-	char*		tex_path,
+	char*		diffuse_tex,
+	char*		specular_tex,
 	int			vertex_count,
 	float*		data
 	);

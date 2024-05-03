@@ -73,7 +73,7 @@ camera_init
 	camera_target,
 	camera_up
 	);
-renderer.camera.camera_speed = 0.005f;
+renderer.camera.camera_speed = 0.001f;
 
 }
 
@@ -281,7 +281,8 @@ void render_cubes_tex_init
 	(
 	float*			vertex_data,
 	unsigned int	count,
-	char*			tex_name,
+	char*			diffuse_name,
+	char*			specular_name,
 	vec3			pos
 	)
 {
@@ -290,7 +291,8 @@ cube_init
 	&renderer.cube, 
 	VERTEX_POSITION_BIT | TEXTURE_COORDS_BIT | NORMAL_VEC_BIT, 
 	pos, 
-	tex_name, 
+	diffuse_name,
+	specular_name,
 	36, 
 	vertex_data 
 	);
@@ -338,8 +340,8 @@ shdr_set_vec4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uLight
 shdr_set_vec3_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uLightPosition", renderer.light_source.position );
 
 /* Set the material properties */
-shdr_set_vec3_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uMaterial.ambient", renderer.cube.material.ambient );
-shdr_set_vec3_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uMaterial.diffuse", renderer.cube.material.diffuse );
+shdr_set_bool_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uMaterial.diffuseMap", 0 );
+shdr_set_bool_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uMaterial.specularMap", 1 );
 shdr_set_vec3_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uMaterial.specular", renderer.cube.material.specular );
 
 /* Calculate the Normal matrix 

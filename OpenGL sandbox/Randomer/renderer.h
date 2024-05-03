@@ -143,6 +143,7 @@ void render_cubes_tex_init
 	float*,
 	unsigned int,
 	char*,
+	char*,
 	vec3
 	);
 
