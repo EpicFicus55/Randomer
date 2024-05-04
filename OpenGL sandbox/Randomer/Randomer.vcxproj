@@ -85,8 +85,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\Stuff\Randomer\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Stuff\Randomer\Lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\Lib;$(LibraryPath)</LibraryPath>
     <ExternalIncludePath>D:\Stuff\cglm\include\cglm;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
