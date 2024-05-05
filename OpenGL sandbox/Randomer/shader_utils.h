@@ -38,6 +38,17 @@ void shdr_generate_program
 /*
 Set a boolean uniform.
 */
+void shdr_set_int_uniform
+	(
+	unsigned int	shader,
+	const char*		name,
+	int				value
+	);
+
+
+/*
+Set a boolean uniform.
+*/
 void shdr_set_bool_uniform
 	(
 	unsigned int	shader,

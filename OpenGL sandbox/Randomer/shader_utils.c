@@ -66,6 +66,25 @@ GL_CALL( glDeleteShader( _frag_shdr ) );
 /*
 Set a boolean uniform.
 */
+void shdr_set_int_uniform
+	(
+	unsigned int	shader,
+	const char*		name,
+	int				value
+	)
+{
+GLint _location = 0;
+
+GL_CALL( glUseProgram( shader ) );
+GL_CALL( _location = glGetUniformLocation( shader, name ) );
+GL_CALL( glUniform1i( _location, value ) );
+GL_CALL( glUseProgram( 0 ) );
+
+}
+
+/*
+Set a boolean uniform.
+*/
 void shdr_set_bool_uniform
 	(
 	unsigned int	shader,

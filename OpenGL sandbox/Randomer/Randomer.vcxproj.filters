@@ -8,6 +8,7 @@
     <ClCompile Include="camera_utils.c" />
     <ClCompile Include="randomer_light.c" />
     <ClCompile Include="randomer_cube.c" />
+    <ClCompile Include="mesh.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="renderer.h" />
@@ -19,6 +20,7 @@
     <ClInclude Include="camera_utils.h" />
     <ClInclude Include="randomer_light.h" />
     <ClInclude Include="randomer_cube.h" />
+    <ClInclude Include="mesh.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="triangles.frag">
