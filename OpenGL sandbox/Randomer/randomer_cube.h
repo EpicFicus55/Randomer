@@ -1,13 +1,14 @@
 #pragma once
 
+#include "texture.h"
 #include "cglm/cglm.h"
 
 typedef struct
 	{
 	unsigned int	VAO_handle;
 	unsigned int	VBO_handle;
-	unsigned int	diffuse_tex_handle;
-	unsigned int	specular_tex_handle;
+	Texture			diffuse_tex;
+	Texture			specular_tex;
 	int				vertex_count;
 	mat4			model_mat;
 	vec3			pos;

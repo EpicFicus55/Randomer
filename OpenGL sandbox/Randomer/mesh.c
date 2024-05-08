@@ -10,7 +10,7 @@ void mesh_init
 	Mesh* mesh, 
 	Vertex_3p3n2t* vertices,	unsigned int vertex_count,
 	unsigned int* indices,		unsigned int index_count,
-	Texture* textures,			unsigned int texture_count
+	Mesh_Texture* textures,		unsigned int texture_count
 	)
 {
 mesh->aVertices = vertices;

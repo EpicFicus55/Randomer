@@ -19,14 +19,14 @@ typedef struct
 	{
 	unsigned int	handle;
 	Texture_Type	type;
-	} Texture;
+	} Mesh_Texture;
 
 
 typedef struct
 	{
 	Vertex_3p3n2t*	aVertices;
 	unsigned int*	aIndices;
-	Texture*		aTextures;
+	Mesh_Texture*	aTextures;
 
 	unsigned int	vertex_count;
 	unsigned int	index_count;
@@ -43,7 +43,7 @@ void mesh_init
 	Mesh* mesh, 
 	Vertex_3p3n2t* vertices,	unsigned int vertex_count,
 	unsigned int* indices,		unsigned int index_count,
-	Texture* textures,			unsigned int texture_count
+	Mesh_Texture* textures,		unsigned int texture_count
 	);
 
 void mesh_draw

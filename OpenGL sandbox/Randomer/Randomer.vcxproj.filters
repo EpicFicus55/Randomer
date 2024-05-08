@@ -10,6 +10,7 @@
     <ClCompile Include="randomer_cube.c" />
     <ClCompile Include="mesh.c" />
     <ClCompile Include="model.c" />
+    <ClCompile Include="texture.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="renderer.h" />
@@ -23,42 +24,43 @@
     <ClInclude Include="randomer_cube.h" />
     <ClInclude Include="mesh.h" />
     <ClInclude Include="model.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="triangles.frag">
-      <Filter>glsl</Filter>
-    </None>
-    <None Include="triangles.vert">
-      <Filter>glsl</Filter>
-    </None>
-    <None Include="rectangles.vert">
-      <Filter>glsl</Filter>
-    </None>
-    <None Include="rectangles.frag">
-      <Filter>glsl</Filter>
-    </None>
-    <None Include="cubes.frag">
-      <Filter>glsl</Filter>
-    </None>
-    <None Include="cubes.vert">
-      <Filter>glsl</Filter>
-    </None>
-    <None Include="light_source.vert">
-      <Filter>glsl</Filter>
-    </None>
-    <None Include="light_source.frag">
-      <Filter>glsl</Filter>
-    </None>
-    <None Include="phong.frag">
-      <Filter>glsl</Filter>
-    </None>
-    <None Include="phong.vert">
-      <Filter>glsl</Filter>
-    </None>
+    <ClInclude Include="texture.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="glsl">
       <UniqueIdentifier>{44566677-5f4b-4eeb-8cc7-4efd78b66f6f}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glsl\cubes.frag">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="glsl\cubes.vert">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="glsl\light_source.frag">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="glsl\light_source.vert">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="glsl\phong.frag">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="glsl\phong.vert">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="glsl\rectangles.frag">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="glsl\rectangles.vert">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="glsl\triangles.frag">
+      <Filter>glsl</Filter>
+    </None>
+    <None Include="glsl\triangles.vert">
+      <Filter>glsl</Filter>
+    </None>
   </ItemGroup>
 </Project>
