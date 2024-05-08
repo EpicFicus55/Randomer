@@ -76,7 +76,7 @@ char		 _sampler_name[ 100 ];
 /* The shader uniforms will be as such:
 material.uDiffuseMap1
 material.uSpecularMap2 */
-for( int i = 0; i < mesh->texture_count; i++ )
+for( unsigned int i = 0; i < mesh->texture_count; i++ )
 	{
 	memset(_sampler_name, 0, sizeof(_sampler_name) );
 

@@ -9,6 +9,7 @@
     <ClCompile Include="randomer_light.c" />
     <ClCompile Include="randomer_cube.c" />
     <ClCompile Include="mesh.c" />
+    <ClCompile Include="model.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="renderer.h" />
@@ -21,6 +22,7 @@
     <ClInclude Include="randomer_light.h" />
     <ClInclude Include="randomer_cube.h" />
     <ClInclude Include="mesh.h" />
+    <ClInclude Include="model.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="triangles.frag">
