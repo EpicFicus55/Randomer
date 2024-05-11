@@ -13,13 +13,13 @@ void mesh_init
 	Mesh_Texture* textures,		unsigned int texture_count
 	)
 {
-mesh->aVertices = vertices;
-mesh->aIndices  = indices;
-mesh->aTextures = textures;
+//mesh->aVertices = vertices;
+//mesh->aIndices  = indices;
+//mesh->aTextures = textures;
 
-mesh->vertex_count  = vertex_count;
-mesh->index_count   = index_count;
-mesh->texture_count = texture_count;
+//mesh->vertex_count  = vertex_count;
+//mesh->index_count   = index_count;
+//mesh->texture_count = texture_count;
 
 /* Set up the openGL objects */
 GL_CALL( glGenVertexArrays( 1, &mesh->VAO ) );
@@ -84,23 +84,25 @@ for( unsigned int i = 0; i < mesh->texture_count; i++ )
 	if( mesh->aTextures[ i ].type == TEXTURE_DIFFUSE_MAP )
 		{
 		_diff_tex_cnt++;
-		snprintf( _sampler_name, sizeof(_sampler_name), "material.uDiffuseMap%d", _diff_tex_cnt );
+		snprintf( _sampler_name, sizeof(_sampler_name), "uMaterial.uDiffuseMap%d", _diff_tex_cnt );
 		}
-	else if(mesh->aTextures[i].type == TEXTURE_DIFFUSE_MAP )
+	else if(mesh->aTextures[ i ].type == TEXTURE_SPECULAR_MAP )
 		{
 		_spec_tex_cnt++;
-		snprintf( _sampler_name, sizeof(_sampler_name), "material.uSpecularMap%d", _spec_tex_cnt );
+		snprintf( _sampler_name, sizeof(_sampler_name), "uMaterial.uSpecularMap%d", _spec_tex_cnt );
 		}
 
 	shdr_set_int_uniform( shader_program, _sampler_name, i );
+	GL_CALL( glBindTexture( GL_TEXTURE_2D, mesh->aTextures[ i ].handle ) );
 	}
-
-GL_CALL( glActiveTexture( GL_TEXTURE0 ) );
 
 GL_CALL( glBindVertexArray( mesh->VAO ) );
 GL_CALL( glUseProgram( shader_program ) );
-GL_CALL( glDrawElements( GL_TRIANGLES, mesh->index_count, GL_UNSIGNED_INT, mesh->aIndices ) );
+GL_CALL( glEnable( GL_DEPTH_TEST ) );
+GL_CALL( glDrawElements( GL_TRIANGLES, mesh->index_count, GL_UNSIGNED_INT, 0 ) );
 GL_CALL( glBindVertexArray( 0 ) );
+GL_CALL( glDisable( GL_DEPTH_TEST ) );
 GL_CALL( glUseProgram( 0 ) );
 
+GL_CALL( glActiveTexture( GL_TEXTURE0 ) );
 }

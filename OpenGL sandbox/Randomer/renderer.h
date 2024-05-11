@@ -186,6 +186,23 @@ void render_draw_light
 	);
 
 
+
+/* ---- Lighting ---- */
+/*
+Initialize the renderer light source
+*/
+void render_add_model
+	(
+	char*,
+	vec3
+	);
+
+void render_draw_model
+	(
+	void
+	);
+
+
 /* ---- Window functions ---- */
 /*
 Renderer size callback function
@@ -204,3 +221,7 @@ void render_process_input
 	(
 	void
 	);
+
+
+void APIENTRY glDebugOutput(GLenum source, GLenum type, unsigned int id, GLenum severity, 
+                            GLsizei length, const char *message, const void *userParam);

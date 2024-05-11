@@ -19,6 +19,7 @@ typedef struct
 	{
 	unsigned int	handle;
 	Texture_Type	type;
+	char*			path;
 	} Mesh_Texture;
 
 

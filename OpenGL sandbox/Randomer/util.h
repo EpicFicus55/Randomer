@@ -8,11 +8,12 @@
 #ifdef _DEBUG
     #define GL_CALL( glStmt ) do {																	\
 			glGetError();																			\
-			GLenum err;																				\
+			GLenum err = GL_NO_ERROR;																				\
             glStmt;																					\
 			err = glGetError();																		\
             if( err != GL_NO_ERROR )																\
-				{																					\
+				{																		\
+				assert( 0 );																		\
 				printf( "%08x Error caught in: %s (%s, %i)\n", err, #glStmt, __FILE__, __LINE__ );	\
 				}																					\
         } while( 0 )

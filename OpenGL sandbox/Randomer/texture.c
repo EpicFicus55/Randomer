@@ -1,20 +1,35 @@
 #include <stdio.h>
+#include <string.h>
 #include <glad/glad.h>
 
+#include "mesh.h"
 #include "texture.h"
 #include "util.h"
 #include "stb_image.h"
 
+static Mesh_Texture loaded_textures[ 100 ];
+static unsigned int loaded_tex_cnt = 0;
+
 void texture_load
 	(
-	Texture*	texture,
-	char*		path
+	unsigned int*	texture,
+	char*			path
 	)
 {
 unsigned int _id;
 int _width, _height, _nr_channels;
 unsigned char* _tex_data;
 GLenum	_format;
+
+/* Check if this texture was already loaded */
+for( unsigned int i = 0; i < loaded_tex_cnt; i++ )
+	{
+	if( strcmp( path, loaded_textures[ i ].path ) == 0 )
+		{
+		*texture = loaded_textures[ i ].handle;
+		return;
+		}
+	}
 
 GL_CALL( glGenTextures( 1, &_id ) );
 
@@ -53,10 +68,13 @@ GL_CALL( glGenerateMipmap( GL_TEXTURE_2D ) );
 /* Set up the sampler */
 GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT) );	
 GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT) );
-GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR) );
+GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR) );
 GL_CALL( glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR) );
 
 /* Set the texture handle after all operations were done */
-texture->handle = _id;
+*texture = _id;
+loaded_textures[ loaded_tex_cnt ].handle = _id;
+loaded_textures[ loaded_tex_cnt ].path = path;
+loaded_tex_cnt++;
 
 }

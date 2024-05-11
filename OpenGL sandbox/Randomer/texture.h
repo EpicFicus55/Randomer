@@ -11,6 +11,6 @@ Loads a texture from a given file
 */
 void texture_load
 	(
-	Texture*	texture,
-	char*		path
+	unsigned int*	texture,
+	char*			path
 	);

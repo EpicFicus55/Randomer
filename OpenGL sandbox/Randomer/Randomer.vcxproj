@@ -74,25 +74,25 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>D:\Stuff\Randomer\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Stuff\Randomer\Lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\Lib;$(LibraryPath)</LibraryPath>
     <ExternalIncludePath>D:\Stuff\cglm\include\cglm;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>D:\Stuff\Randomer\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Stuff\Randomer\Lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\Lib;$(LibraryPath)</LibraryPath>
     <ExternalIncludePath>D:\Stuff\cglm\include\cglm;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\Include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Stuff\Randomer\Include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\Lib;$(LibraryPath)</LibraryPath>
     <ExternalIncludePath>D:\Stuff\cglm\include\cglm;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>D:\Stuff\Randomer\Include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Stuff\Randomer\Lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\..\Lib;$(LibraryPath)</LibraryPath>
     <ExternalIncludePath>D:\Stuff\cglm\include\cglm;$(ExternalIncludePath)</ExternalIncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -106,7 +106,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -125,7 +125,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -158,7 +158,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -171,6 +171,7 @@
     <ClCompile Include="renderer.c" />
     <ClCompile Include="shader_utils.c" />
     <ClCompile Include="camera_utils.c" />
+    <ClCompile Include="texture.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera_utils.h" />
@@ -183,19 +184,20 @@
     <ClInclude Include="shader_source.h" />
     <ClInclude Include="shader_utils.h" />
     <ClInclude Include="stb_image.h" />
+    <ClInclude Include="texture.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="cubes.frag" />
-    <None Include="cubes.vert" />
-    <None Include="phong.frag" />
-    <None Include="light_source.frag" />
-    <None Include="light_source.vert" />
-    <None Include="phong.vert" />
-    <None Include="rectangles.frag" />
-    <None Include="rectangles.vert" />
-    <None Include="triangles.frag" />
-    <None Include="triangles.vert" />
+    <None Include="glsl\cubes.frag" />
+    <None Include="glsl\cubes.vert" />
+    <None Include="glsl\light_source.frag" />
+    <None Include="glsl\light_source.vert" />
+    <None Include="glsl\phong.frag" />
+    <None Include="glsl\phong.vert" />
+    <None Include="glsl\rectangles.frag" />
+    <None Include="glsl\rectangles.vert" />
+    <None Include="glsl\triangles.frag" />
+    <None Include="glsl\triangles.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
