@@ -187,9 +187,9 @@ void render_draw_light
 
 
 
-/* ---- Lighting ---- */
+/* ---- Models ---- */
 /*
-Initialize the renderer light source
+Initialize the renderer models
 */
 void render_add_model
 	(
@@ -198,6 +198,11 @@ void render_add_model
 	);
 
 void render_draw_model
+	(
+	void
+	);
+
+void render_free_model
 	(
 	void
 	);
@@ -221,7 +226,3 @@ void render_process_input
 	(
 	void
 	);
-
-
-void APIENTRY glDebugOutput(GLenum source, GLenum type, unsigned int id, GLenum severity, 
-                            GLsizei length, const char *message, const void *userParam);

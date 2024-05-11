@@ -13,8 +13,8 @@ typedef struct
 	unsigned int	mesh_count;
 
 	/* Position and model matrix */
-	mat4			model_mat;
 	vec3			pos;
+	mat4			model_mat;
 
 	/* Directory */
 	char*			dir;
@@ -43,18 +43,7 @@ void model_draw
 	unsigned int	shader
 	);
 
-
-void model_node_process
+void model_free
 	(
-	Model*					model,
-	struct aiNode*			node,
-	const struct aiScene*	scene
-	);
-
-
-void model_process_mesh
-	(
-	Mesh*					randomer_mesh,
-	struct aiMesh*			assimp_mesh,
-	const struct aiScene*	scene
+	Model*
 	);

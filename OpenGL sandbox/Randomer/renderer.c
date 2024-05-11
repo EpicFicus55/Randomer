@@ -473,6 +473,15 @@ model_draw( &model, renderer.shader_programs[ SHADER_PROGRAM_PHONG ] );
 }
 
 
+void render_free_model
+	(
+	void
+	)
+{
+model_free( &model );
+
+}
+
 /*
 Renderer size callback method
 */

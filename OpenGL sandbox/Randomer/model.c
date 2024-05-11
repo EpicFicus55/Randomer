@@ -6,7 +6,23 @@
 #include "texture.h"
 
 /* Static variable to help with the node traversals */
-static int mesh_idx = 0;
+static int g_mesh_idx = 0;
+
+
+static void model_node_process
+	(
+	Model*					model,
+	struct aiNode*			node,
+	const struct aiScene*	scene
+	);
+
+
+static void model_process_mesh
+	(
+	Mesh*					randomer_mesh,
+	struct aiMesh*			assimp_mesh,
+	const struct aiScene*	scene
+	);
 
 
 void model_init_position
@@ -46,7 +62,7 @@ model->mesh_count = scene->mNumMeshes;
 /* Allocate memory for all meshes */
  model->aMeshes = ( Mesh* )malloc( scene->mNumMeshes * sizeof( Mesh ) );
 
-mesh_idx = 0;
+g_mesh_idx = 0;
 model_node_process( model, scene->mRootNode, scene );
 
 }
@@ -67,7 +83,7 @@ for( unsigned int i = 0; i < model->mesh_count; i++ )
 
 
 
-void model_node_process
+static void model_node_process
 	(
 	Model*					model,
 	struct aiNode*			node,
@@ -78,12 +94,12 @@ for( unsigned int i = 0; i < node->mNumMeshes; i++ )
 	{
 	model_process_mesh
 		(
-		&model->aMeshes[ mesh_idx ],
+		&model->aMeshes[ g_mesh_idx ],
 		scene->mMeshes[ node->mMeshes[ i ] ],
 		scene
 		);
-	mesh_init( &model->aMeshes[ mesh_idx ], NULL, 0, NULL, 0, NULL, 0 );
-	mesh_idx++;
+	mesh_init( &model->aMeshes[ g_mesh_idx ], NULL, 0, NULL, 0, NULL, 0 );
+	g_mesh_idx++;
 	}
 
 /* Recursively process the remaining nodes */
@@ -200,4 +216,21 @@ if( assimp_mesh->mMaterialIndex >= 0 )
 	}
 
 return;
+}
+
+
+void model_free
+	(
+	Model*	model
+	)
+{
+for( unsigned int i = 0; i < model->mesh_count; i++ )
+	{
+	free( model->aMeshes[ i ].aVertices );
+	free( model->aMeshes[ i ].aTextures );
+	free( model->aMeshes[ i ].aIndices );
+	}
+
+free( model->aMeshes );
+
 }
