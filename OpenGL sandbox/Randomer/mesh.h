@@ -41,10 +41,7 @@ typedef struct
 
 void mesh_init
 	( 
-	Mesh* mesh, 
-	Vertex_3p3n2t* vertices,	unsigned int vertex_count,
-	unsigned int* indices,		unsigned int index_count,
-	Mesh_Texture* textures,		unsigned int texture_count
+	Mesh* mesh
 	);
 
 void mesh_draw

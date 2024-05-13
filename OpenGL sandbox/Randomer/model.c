@@ -9,6 +9,10 @@
 static int g_mesh_idx = 0;
 
 
+/* 
+ * Static functions for processing the
+ * Assimp nodes
+ */
 static void model_node_process
 	(
 	Model*					model,
@@ -19,6 +23,7 @@ static void model_node_process
 
 static void model_process_mesh
 	(
+	Model*					model,
 	Mesh*					randomer_mesh,
 	struct aiMesh*			assimp_mesh,
 	const struct aiScene*	scene
@@ -41,13 +46,18 @@ glm_translate( model->model_mat, model->pos );
 
 void model_load
 	(
-	Model*	model,
-	char*	path
+	Model*	model
 	)
 {
+char _model_name[ 256 ];
+
+/* Compute the model path using the directory and the name */
+sprintf( _model_name, "%s\\%s", model->dir, model->name );
+
+/* Load the model using Assimp */
 const struct aiScene* scene = aiImportFile
 		(
-		(const char*) path,
+		(const char*) _model_name,
 		aiProcess_Triangulate | aiProcess_FlipUVs
 		);
 
@@ -94,11 +104,12 @@ for( unsigned int i = 0; i < node->mNumMeshes; i++ )
 	{
 	model_process_mesh
 		(
+		model,
 		&model->aMeshes[ g_mesh_idx ],
 		scene->mMeshes[ node->mMeshes[ i ] ],
 		scene
 		);
-	mesh_init( &model->aMeshes[ g_mesh_idx ], NULL, 0, NULL, 0, NULL, 0 );
+	mesh_init( &model->aMeshes[ g_mesh_idx ] );
 	g_mesh_idx++;
 	}
 
@@ -113,8 +124,9 @@ for( unsigned int i = 0; i < node->mNumChildren; i++ )
 }
 
 
-void model_process_mesh
+static void model_process_mesh
 	(
+	Model*					model,
 	Mesh*					randomer_mesh,
 	struct aiMesh*			assimp_mesh,
 	const struct aiScene*	scene
@@ -192,24 +204,32 @@ if( assimp_mesh->mMaterialIndex >= 0 )
 	for( unsigned int i = 0; i < _diff_tex_cnt; i++ )
 		{
 		struct aiString _tex_name;
+		char			_tex_path[ 256 ]; /* Use this to compute the path */
+
 		aiGetMaterialTexture( _material, aiTextureType_DIFFUSE, i, &_tex_name, NULL, NULL, NULL, NULL, NULL, NULL );
 
+		sprintf( _tex_path, "%s\\%s", model->diff_dir, _tex_name.data );
+
 		randomer_mesh->aTextures[ _curr_tex ].type = TEXTURE_DIFFUSE_MAP;
-		randomer_mesh->aTextures[ _curr_tex ].path = "D:\\Stuff\\Randomer\\Assets\\Models\\backpack\\diffuse.jpg";
-		texture_load( &randomer_mesh->aTextures[ _curr_tex ].handle, "D:\\Stuff\\Randomer\\Assets\\Models\\backpack\\diffuse.jpg" );
+		randomer_mesh->aTextures[ _curr_tex ].path = &_tex_path[ 0 ];
+		texture_load( &randomer_mesh->aTextures[ _curr_tex ].handle, &_tex_path[ 0 ] );
 
 		_curr_tex++;
 		}
-//
+
 	/* Load the specular textures next */
 	for( unsigned int i = 0; i < _spec_tex_cnt; i++ )
 		{
 		struct aiString _tex_name;
+		char			_tex_path[ 256 ]; /* Use this to compute the path */
+
 		aiGetMaterialTexture( _material, aiTextureType_SPECULAR, i, &_tex_name, NULL, NULL, NULL, NULL, NULL, NULL );
 
+		sprintf( _tex_path, "%s\\%s", model->diff_dir, _tex_name.data );
+
 		randomer_mesh->aTextures[ _curr_tex ].type = TEXTURE_SPECULAR_MAP;
-		randomer_mesh->aTextures[ _curr_tex ].path = "D:\\Stuff\\Randomer\\Assets\\Models\\backpack\\specular.jpg";
-		texture_load( &randomer_mesh->aTextures[ _curr_tex ].handle, "D:\\Stuff\\Randomer\\Assets\\Models\\backpack\\specular.jpg" );
+		randomer_mesh->aTextures[ _curr_tex ].path = &_tex_path[ 0 ];
+		texture_load( &randomer_mesh->aTextures[ _curr_tex ].handle, &_tex_path[ 0 ] );
 		
 		_curr_tex++;
 		}

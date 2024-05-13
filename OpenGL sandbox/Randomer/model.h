@@ -17,7 +17,10 @@ typedef struct
 	mat4			model_mat;
 
 	/* Directory */
+	char*			name;
 	char*			dir;
+	char*			diff_dir;
+	char*			spec_dir;
 	} Model;
 
 
@@ -32,8 +35,7 @@ void model_init_position
 
 void model_load
 	(
-	Model*	model,
-	char*	path
+	Model*	model
 	);
 
 

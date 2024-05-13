@@ -7,19 +7,9 @@
 
 void mesh_init
 	( 
-	Mesh* mesh, 
-	Vertex_3p3n2t* vertices,	unsigned int vertex_count,
-	unsigned int* indices,		unsigned int index_count,
-	Mesh_Texture* textures,		unsigned int texture_count
+	Mesh* mesh
 	)
 {
-//mesh->aVertices = vertices;
-//mesh->aIndices  = indices;
-//mesh->aTextures = textures;
-
-//mesh->vertex_count  = vertex_count;
-//mesh->index_count   = index_count;
-//mesh->texture_count = texture_count;
 
 /* Set up the openGL objects */
 GL_CALL( glGenVertexArrays( 1, &mesh->VAO ) );

@@ -189,12 +189,23 @@ void render_draw_light
 
 /* ---- Models ---- */
 /*
-Initialize the renderer models
-*/
+ * Initialize the renderer models
+ * This requires the following
+ * - path to the model file
+ * - name of the model file
+ * - path to the diffuse maps directory
+ * - path to the specular maps directory
+ * 
+ * The function will get the names of the maps
+ * automatically.
+ */
 void render_add_model
 	(
-	char*,
-	vec3
+	char*	model_path,
+	char*	diff_dir,	
+	char*	spec_dir,	
+	char*	model_name,	
+	vec3	pos
 	);
 
 void render_draw_model

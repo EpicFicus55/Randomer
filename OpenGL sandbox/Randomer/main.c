@@ -30,7 +30,14 @@ render_init( SCR_WIDTH, SCR_HEIGHT );
 
 render_attach_camera( CAMERA_TYPE_XYZ_KEYBOARD, camera_position, camera_target, camera_up );
 
-render_add_model( "..\\..\\Assets\\Models\\backpack\\backpack.obj", model_pos );
+render_add_model
+    ( 
+    "..\\..\\Assets\\Models\\backpack", /* path to the model file */
+    "..\\..\\Assets\\Models\\backpack", /* path to the diffuse maps */
+    "..\\..\\Assets\\Models\\backpack", /* path to the specular maps */
+    "backpack.obj",                     /* model name               */
+    model_pos 
+    );
 
 render_add_light_source( light_pos, light_color, light_ambient_strength );
 

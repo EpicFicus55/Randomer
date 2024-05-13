@@ -432,11 +432,19 @@ Load models
 void render_add_model
 	(
 	char*	model_path,
-	vec3	position
+	char*	diff_dir,	
+	char*	spec_dir,	
+	char*	model_name,	
+	vec3	pos
 	)
 {
-model_init_position( &model, position );
-model_load( &model, model_path );
+model.name = model_name;
+model.dir = model_path;
+model.diff_dir = diff_dir;
+model.spec_dir = spec_dir;
+
+model_init_position( &model, pos );
+model_load( &model );
 
 }
 
