@@ -1,6 +1,7 @@
 #include <stdbool.h>
 
 #include "renderer.h"
+#include "model.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -10,6 +11,7 @@
 extern vert_frag_type vertex_fragment_shaders[];
 
 static Renderer renderer;
+Model model;
 
 void render_init
 	(
@@ -27,6 +29,8 @@ glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
 renderer.pWindow = glfwCreateWindow( width, height, "Randomer window", NULL, NULL );
 renderer.window_size.width = width;
 renderer.window_size.height = height;
+
+stbi_set_flip_vertically_on_load( true );
 
 glfwMakeContextCurrent( renderer.pWindow );
 glfwSetFramebufferSizeCallback( renderer.pWindow, render_framebuffer_size_callback);
@@ -73,7 +77,7 @@ camera_init
 	camera_target,
 	camera_up
 	);
-renderer.camera.camera_speed = 0.001f;
+renderer.camera.camera_speed = 0.005f;
 
 }
 
@@ -420,6 +424,71 @@ GL_CALL( glBindVertexArray( 0 ) );
 
 }
 
+
+/* ---- Models ---- */
+/*
+Load models
+*/
+void render_add_model
+	(
+	char*	model_path,
+	char*	diff_dir,	
+	char*	spec_dir,	
+	char*	model_name,	
+	vec3	pos
+	)
+{
+model.name = model_name;
+model.dir = model_path;
+model.diff_dir = diff_dir;
+model.spec_dir = spec_dir;
+
+model_init_position( &model, pos );
+model_load( &model );
+
+}
+
+
+void render_draw_model
+	(
+	void
+	)
+{
+mat4 _normal_matrix;
+
+/* Set up the matrices */
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uProjMat", renderer.proj_mat );
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uViewMat", renderer.camera.view );
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uModelMat", model.model_mat );
+
+/* Set up the light */
+shdr_set_float_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uAmbientStrength", renderer.light_source.ambient_strength );
+shdr_set_vec4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uLightColor", renderer.light_source.color );
+shdr_set_vec3_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uLightPosition", renderer.light_source.position );
+
+/* Calculate the Normal matrix 
+- note that we must use it in the shader as a 3x3 mat */
+glm_mat4_identity( _normal_matrix );
+glm_mat4_inv( model.model_mat, _normal_matrix );
+glm_mat4_transpose( _normal_matrix );
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uNormalMat", _normal_matrix );
+
+/* Set the camera position for specular highlights */
+shdr_set_vec3_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uCameraPos", renderer.camera.camera_pos );
+
+model_draw( &model, renderer.shader_programs[ SHADER_PROGRAM_PHONG ] );
+
+}
+
+
+void render_free_model
+	(
+	void
+	)
+{
+model_free( &model );
+
+}
 
 /*
 Renderer size callback method
