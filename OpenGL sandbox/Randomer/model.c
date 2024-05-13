@@ -30,6 +30,10 @@ static void model_process_mesh
 	);
 
 
+/*
+ * Function for initializing the 
+ * model matrix of a model.
+ */
 void model_init_position
 	(
 	Model*	model,
@@ -44,6 +48,11 @@ glm_translate( model->model_mat, model->pos );
 
 }
 
+
+/*
+ * Function that loads a model based on the parameters
+ * already set. 
+ */
 void model_load
 	(
 	Model*	model
@@ -78,6 +87,9 @@ model_node_process( model, scene->mRootNode, scene );
 }
 
 
+/*
+ * Function that draws every mesh of a model.
+ */
 void model_draw
 	(
 	Model*			model,
@@ -92,7 +104,30 @@ for( unsigned int i = 0; i < model->mesh_count; i++ )
 }
 
 
+/* 
+ * Function that frees the resources of a model.
+ */
+void model_free
+	(
+	Model*	model
+	)
+{
+for( unsigned int i = 0; i < model->mesh_count; i++ )
+	{
+	free( model->aMeshes[ i ].aVertices );
+	free( model->aMeshes[ i ].aTextures );
+	free( model->aMeshes[ i ].aIndices );
+	}
 
+free( model->aMeshes );
+
+}
+
+
+/*
+ * Recursive function for processing every node in a
+ * model.
+ */
 static void model_node_process
 	(
 	Model*					model,
@@ -124,6 +159,11 @@ for( unsigned int i = 0; i < node->mNumChildren; i++ )
 }
 
 
+/*
+ * Function that allocates memory for the vertices,
+ * indices, and textures, and converts the Assimp
+ * mesh data to Randomer mesh data.
+ */
 static void model_process_mesh
 	(
 	Model*					model,
@@ -136,7 +176,7 @@ memset( randomer_mesh, 0, sizeof( Mesh ) );
 
 /* Allocate memory for every vertex */
 randomer_mesh->vertex_count = assimp_mesh->mNumVertices;
-randomer_mesh->aVertices = ( Vertex_3p3n2t* )malloc( assimp_mesh->mNumVertices * sizeof( Vertex_3p3n2t ) );
+randomer_mesh->aVertices = ( Vertex_3p3n2t_Type* )malloc( assimp_mesh->mNumVertices * sizeof( Vertex_3p3n2t_Type ) );
 
 /* Process the vertex attributes - position, normals, texture coordinates */
 for( unsigned int vtx = 0; vtx < assimp_mesh->mNumVertices; vtx++ )
@@ -193,7 +233,7 @@ if( assimp_mesh->mMaterialIndex >= 0 )
 	
 	/* Allocate memory for the textures */
 	randomer_mesh->texture_count = _diff_tex_cnt + _spec_tex_cnt;
-	randomer_mesh->aTextures = ( Mesh_Texture* )malloc( randomer_mesh->texture_count * sizeof( Mesh_Texture ) );
+	randomer_mesh->aTextures = ( Mesh_Texture_Type* )malloc( randomer_mesh->texture_count * sizeof( Mesh_Texture_Type ) );
 
 	if( !randomer_mesh->aTextures )
 		{
@@ -236,21 +276,4 @@ if( assimp_mesh->mMaterialIndex >= 0 )
 	}
 
 return;
-}
-
-
-void model_free
-	(
-	Model*	model
-	)
-{
-for( unsigned int i = 0; i < model->mesh_count; i++ )
-	{
-	free( model->aMeshes[ i ].aVertices );
-	free( model->aMeshes[ i ].aTextures );
-	free( model->aMeshes[ i ].aIndices );
-	}
-
-free( model->aMeshes );
-
 }

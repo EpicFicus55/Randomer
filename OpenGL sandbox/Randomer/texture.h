@@ -1,9 +1,10 @@
 #pragma once
 
+/* Will be deprecated */
 typedef struct
 	{
 	unsigned int	handle;
-	} Texture;
+	} Texture_Type;
 
 
 /*

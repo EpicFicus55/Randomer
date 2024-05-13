@@ -7,8 +7,8 @@ typedef struct
 	{
 	unsigned int	VAO_handle;
 	unsigned int	VBO_handle;
-	Texture			diffuse_tex;
-	Texture			specular_tex;
+	Texture_Type	diffuse_tex;
+	Texture_Type	specular_tex;
 	int				vertex_count;
 	mat4			model_mat;
 	vec3			pos;

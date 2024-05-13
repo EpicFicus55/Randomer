@@ -5,6 +5,12 @@
 #include "util.h"
 #include "shader_utils.h"
 
+/*
+ * Function that initializes a mesh, based on
+ * the parameters already set.
+ * Currently the only vertex type supported is
+ * 3p3n3t.
+ */
 void mesh_init
 	( 
 	Mesh* mesh
@@ -23,7 +29,7 @@ GL_CALL( glBindBuffer( GL_ARRAY_BUFFER, mesh->VBO ) );
 GL_CALL( glBufferData
 			( 
 			GL_ARRAY_BUFFER, 
-			mesh->vertex_count * sizeof( Vertex_3p3n2t ), 
+			mesh->vertex_count * sizeof( Vertex_3p3n2t_Type ), 
 			&mesh->aVertices[ 0 ],
 			GL_STATIC_DRAW
 			)
@@ -40,19 +46,23 @@ GL_CALL( glBufferData
 		);
 
 /* Set up the attributes */
-GL_CALL( glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex_3p3n2t ), (void*)offsetof( Vertex_3p3n2t, position ) ) );
+GL_CALL( glVertexAttribPointer( 0, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex_3p3n2t_Type ), (void*)offsetof( Vertex_3p3n2t_Type, position ) ) );
 GL_CALL( glEnableVertexAttribArray( 0 ) );
 
-GL_CALL( glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex_3p3n2t ), (void*)offsetof( Vertex_3p3n2t, normals ) ) );
+GL_CALL( glVertexAttribPointer( 1, 3, GL_FLOAT, GL_FALSE, sizeof( Vertex_3p3n2t_Type ), (void*)offsetof( Vertex_3p3n2t_Type, normals ) ) );
 GL_CALL( glEnableVertexAttribArray( 1 ) );
 
-GL_CALL( glVertexAttribPointer( 2, 2, GL_FLOAT, GL_FALSE, sizeof( Vertex_3p3n2t ), (void*)offsetof( Vertex_3p3n2t, tex_coords) ) );
+GL_CALL( glVertexAttribPointer( 2, 2, GL_FLOAT, GL_FALSE, sizeof( Vertex_3p3n2t_Type ), (void*)offsetof( Vertex_3p3n2t_Type, tex_coords) ) );
 GL_CALL( glEnableVertexAttribArray( 2 ) );
 
 GL_CALL( glBindVertexArray( 0 ) );
 }
 
 
+/*
+ * Function that renders a given mesh with a given
+ * shader program.
+ */
 void mesh_draw
 	(
 	Mesh* mesh,

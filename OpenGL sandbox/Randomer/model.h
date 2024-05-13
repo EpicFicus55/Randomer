@@ -25,26 +25,39 @@ typedef struct
 
 
 /*
- This calculates the model matrix
-*/
+ * Function for initializing the 
+ * model matrix of a model.
+ */
 void model_init_position
 	(
 	Model*	model,
 	vec3	pos
 	);
 
+
+/*
+ * Function that loads a model based on the parameters
+ * already set. 
+ */
 void model_load
 	(
 	Model*	model
 	);
 
 
+/*
+ * Function that draws every mesh of a model.
+ */
 void model_draw
 	(
 	Model*			model,
 	unsigned int	shader
 	);
 
+
+/* 
+ * Function that frees the resources of a model.
+ */
 void model_free
 	(
 	Model*

@@ -7,8 +7,8 @@
 #include "util.h"
 #include "stb_image.h"
 
-static Mesh_Texture loaded_textures[ 100 ];
-static unsigned int loaded_tex_cnt = 0;
+static Mesh_Texture_Type	loaded_textures[ 100 ];
+static unsigned int			loaded_tex_cnt = 0;
 
 void texture_load
 	(
