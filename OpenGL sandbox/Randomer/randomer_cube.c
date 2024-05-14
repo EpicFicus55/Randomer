@@ -69,10 +69,10 @@ if( attrib_bitmask & TEXTURE_COORDS_BIT )
 	{
 	/* Create the texture, if necessary */
 	GL_CALL( glActiveTexture( GL_TEXTURE0 ) );
-	texture_load( &cube->diffuse_tex, diffuse_tex );
+	texture_load( &cube->diffuse_tex.handle, diffuse_tex );
 
 	GL_CALL( glActiveTexture( GL_TEXTURE1 ) );
-	texture_load( &cube->specular_tex, specular_tex );
+	texture_load( &cube->specular_tex.handle, specular_tex );
 
 	_stride += 2;
 	_normal_vec_offset += 2;

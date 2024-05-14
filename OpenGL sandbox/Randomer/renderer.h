@@ -16,9 +16,6 @@ typedef struct
 	{
 	window_size32_t		window_size;
 	GLFWwindow*			pWindow;
-	unsigned int		uiVBO; /* Needs to be removed */
-	unsigned int		uiEBO;/* Needs to be removed */
-	unsigned int		uiVAO;/* Needs to be removed */
 	unsigned int		shader_programs[ SHADER_PROGRAM_COUNT ];
 	mat4				proj_mat;
 	unsigned int		texture; /* Needs to be removed */
@@ -92,47 +89,6 @@ void render_clear_screen
 	);
 
 
-/* ---- Triangle drawing ---- */
-/*
-Render a set of triangles
-*/
-void render_triangles_init
-	(
-	float*,
-	unsigned int
-	);
-
-/*
-Render a set of triangles
-*/
-void render_triangles_draw
-	(
-	void
-	);
-
-
-/* ---- Rectangle drawing ---- */
-/*
-Initialize the renderer for rendering
-a set of rectangles.
-*/
-void render_rectangles_tex_init
-	(
-	float*,
-	unsigned int*,
-	unsigned int,
-	char*
-	);
-
-/* 
-Render the rectangles.
-*/
-void render_rectangles_tex_draw
-	(
-	void
-	);
-
-
 /* ---- Cube drawing ---- */
 /*
 Initialize the renderer for rendering
@@ -146,15 +102,6 @@ void render_cubes_tex_init
 	char*,
 	vec3
 	);
-
-/* 
-Render the rectangles.
-*/
-void render_cubes_tex_draw
-	(
-	void
-	);
-
 
 /* 
 Render the rectangles with lighting.
