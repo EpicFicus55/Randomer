@@ -11,7 +11,6 @@
 extern vert_frag_type vertex_fragment_shaders[];
 
 static Renderer renderer;
-Model model;
 
 void render_init
 	(
@@ -77,7 +76,7 @@ camera_init
 	camera_target,
 	camera_up
 	);
-renderer.camera.camera_speed = 0.005f;
+renderer.camera.camera_speed = 0.1;
 
 }
 
@@ -113,6 +112,14 @@ void render_defenestrate
 {
 glfwTerminate();
 
+/* Free the model memory */
+for( unsigned int i = 0; i < MAX_MODEL_COUNT; i++ )
+	{
+	if( renderer.aModel[ i ].is_active == 1 )
+		{
+		model_free( &renderer.aModel[ i ] );
+		}
+	}
 }
 
 
@@ -276,9 +283,11 @@ GL_CALL( glBindVertexArray( 0 ) );
 
 /* ---- Models ---- */
 /*
-Load models
-*/
-void render_add_model
+ * Add a model to the renderer 
+ * - this returns a handle to be used when calling the 
+ * draw function.
+ */
+unsigned int render_add_model
 	(
 	char*	model_path,
 	char*	diff_dir,	
@@ -287,28 +296,72 @@ void render_add_model
 	vec3	pos
 	)
 {
-model.name = model_name;
-model.dir = model_path;
-model.diff_dir = diff_dir;
-model.spec_dir = spec_dir;
+unsigned int _idx = INVALD_ELEMENT_INDEX;
+Model*		 _model = NULL;
 
-model_init_position( &model, pos );
-model_load( &model );
+/* Find the first empty element in the model array */
+FIND_FIRST_INACTIVE_ELEMENT_INDEX
+	(
+	renderer.aModel,			/* The array to search	*/
+	sizeof( renderer.aModel ),	/* Size of the array	*/
+	is_active,					/* The active flag		*/
+	_idx						/* Index of the first free element */
+	);
+
+if( _idx == INVALD_ELEMENT_INDEX )
+	{
+	printf( "The maximum number of models has been added\n" );
+	return INVALD_ELEMENT_INDEX;
+	}
+
+/* Get a handle on the model and mark it as active */
+_model = &renderer.aModel[ _idx ];
+_model->is_active = 1;
+
+/* Set the model's parameters appropriately */
+_model->name = model_name;
+_model->dir = model_path;
+_model->diff_dir = diff_dir;
+_model->spec_dir = spec_dir;
+
+/* Initialize the model */
+model_init_position( _model, pos );
+model_load( _model );
+
+/* Return a handle to the user, to be used for 
+rendering and deletion. */
+return _idx;
 
 }
 
 
 void render_draw_model
 	(
-	void
+	unsigned int handle
 	)
 {
-mat4 _normal_matrix;
+mat4	_normal_matrix;
+Model*	_model = NULL;
+
+/* Some basic sanity checks */
+if( handle > MAX_MODEL_COUNT || handle == INVALD_ELEMENT_INDEX )
+	{
+	printf( "Attempted to draw invalid model.\n" );
+	return;
+	}
+
+if( renderer.aModel[ handle ].is_active == 0 )
+	{
+	printf( "Attempted to draw an unitialized model.\n" );
+	return;
+	}
+
+_model = &renderer.aModel[ handle ];
 
 /* Set up the matrices */
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uProjMat", renderer.proj_mat );
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uViewMat", renderer.camera.view );
-shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uModelMat", model.model_mat );
+shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uModelMat", _model->model_mat );
 
 /* Set up the light */
 shdr_set_float_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uAmbientStrength", renderer.light_source.ambient_strength );
@@ -318,24 +371,39 @@ shdr_set_vec3_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uLight
 /* Calculate the Normal matrix 
 - note that we must use it in the shader as a 3x3 mat */
 glm_mat4_identity( _normal_matrix );
-glm_mat4_inv( model.model_mat, _normal_matrix );
+glm_mat4_inv( _model->model_mat, _normal_matrix );
 glm_mat4_transpose( _normal_matrix );
 shdr_set_mat4_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uNormalMat", _normal_matrix );
 
 /* Set the camera position for specular highlights */
 shdr_set_vec3_uniform( renderer.shader_programs[ SHADER_PROGRAM_PHONG ], "uCameraPos", renderer.camera.camera_pos );
 
-model_draw( &model, renderer.shader_programs[ SHADER_PROGRAM_PHONG ] );
+model_draw( _model, renderer.shader_programs[ SHADER_PROGRAM_PHONG ] );
 
 }
 
 
 void render_free_model
 	(
-	void
+	unsigned int handle
 	)
 {
-model_free( &model );
+/* Some basic sanity checks */
+if( handle > MAX_MODEL_COUNT || handle == INVALD_ELEMENT_INDEX )
+	{
+	printf( "Attempted to free invalid model.\n" );
+	return;
+	}
+
+if( renderer.aModel[ handle ].is_active == 0 )
+	{
+	printf( "Attempted to free an unitialized model.\n" );
+	return;
+	}
+
+model_free( &renderer.aModel[ handle ] );
+
+renderer.aModel[ handle ].is_active = 0;
 
 }
 

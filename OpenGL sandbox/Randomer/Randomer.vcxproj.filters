@@ -50,17 +50,5 @@
     <None Include="glsl\phong.vert">
       <Filter>glsl</Filter>
     </None>
-    <None Include="glsl\rectangles.frag">
-      <Filter>glsl</Filter>
-    </None>
-    <None Include="glsl\rectangles.vert">
-      <Filter>glsl</Filter>
-    </None>
-    <None Include="glsl\triangles.frag">
-      <Filter>glsl</Filter>
-    </None>
-    <None Include="glsl\triangles.vert">
-      <Filter>glsl</Filter>
-    </None>
   </ItemGroup>
 </Project>

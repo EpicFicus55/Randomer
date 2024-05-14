@@ -5,6 +5,15 @@
 
 #include "cglm/cglm.h"
 
+/*
+ * Definition for an invalid array index
+ */
+#define INVALD_ELEMENT_INDEX (unsigned int)( -1 )
+
+
+/* 
+ * Macro for catching any gl error after calling a function
+ */
 #ifdef _DEBUG
     #define GL_CALL( glStmt ) do {																	\
 			glGetError();																			\
@@ -20,6 +29,20 @@
 #else
     #define GL_CALL( stmt ) stmt
 #endif
+
+/*
+ * Macro for finding inactive element in array
+ */
+#define FIND_FIRST_INACTIVE_ELEMENT_INDEX( arr, arr_size, status, idx ) do {	\
+			for( unsigned int i = 0; i < arr_size; i++ )						\
+				{																\
+				if( arr[ i ].status == 0 )										\
+					{															\
+					idx = i;													\
+					break;														\
+					}															\
+				}																\
+			} while( 0 )
 
 typedef struct
 	{

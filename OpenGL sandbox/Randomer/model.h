@@ -6,8 +6,17 @@
 
 #include "mesh.h"
 
+/* 
+ * Definition for the limit of models that can be loaded 
+ */
+#define MAX_MODEL_COUNT	5
+
+
 typedef struct
 	{
+	/* Active status */
+	char			is_active;
+
 	/* Model data */
 	Mesh*			aMeshes;
 	unsigned int	mesh_count;

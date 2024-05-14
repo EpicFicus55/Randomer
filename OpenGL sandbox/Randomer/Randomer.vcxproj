@@ -194,10 +194,6 @@
     <None Include="glsl\light_source.vert" />
     <None Include="glsl\phong.frag" />
     <None Include="glsl\phong.vert" />
-    <None Include="glsl\rectangles.frag" />
-    <None Include="glsl\rectangles.vert" />
-    <None Include="glsl\triangles.frag" />
-    <None Include="glsl\triangles.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -10,17 +10,31 @@
 #include "camera_utils.h"
 #include "randomer_light.h"
 #include "randomer_cube.h"
+#include "model.h"
 #include "cglm/cglm.h"
 
 typedef struct 
 	{
+	/* Window parameters */
 	window_size32_t		window_size;
 	GLFWwindow*			pWindow;
+
+	/* Shader programs */
 	unsigned int		shader_programs[ SHADER_PROGRAM_COUNT ];
+
+	/* Context specific projection matrix */
 	mat4				proj_mat;
-	unsigned int		texture; /* Needs to be removed */
+
+	/* Context specific camera */
 	Camera				camera;
+
+	/* Models */
+	Model				aModel[ MAX_MODEL_COUNT ];
+
+	/* Light source */
 	Light_Source		light_source;
+
+	/* Simple cube object*/
 	Cube_Type			cube;
 	} Renderer;
 
@@ -145,8 +159,12 @@ void render_draw_light
  * 
  * The function will get the names of the maps
  * automatically.
+ * 
+ * The function returns an index to be used
+ * as a handle. The maximum number of models
+ * that can be added is given by MAX_MODEL_COUNT.
  */
-void render_add_model
+unsigned int render_add_model
 	(
 	char*	model_path,
 	char*	diff_dir,	
@@ -157,12 +175,12 @@ void render_add_model
 
 void render_draw_model
 	(
-	void
+	unsigned int handle
 	);
 
 void render_free_model
 	(
-	void
+	unsigned int handle
 	);
 
 

@@ -21,23 +21,25 @@ vec4 light_color      = { 1.0f, 1.0f, 1.0f, 1.0f };
 float light_ambient_strength = 0.3f;
 
 vec3    cube_pos = { 0.0f, 0.0f, 0.0f };
-vec3    model_pos = { 0.0f, 0.0f, 0.0f };
+vec3    backpack_pos = { 0.0f, 0.0f, 0.0f };
 
 int main( void )
 {
- 
-render_init( SCR_WIDTH, SCR_HEIGHT );
+/* Model handle */
+unsigned int _model_backpack;
 
+render_init( SCR_WIDTH, SCR_HEIGHT );
 render_attach_camera( CAMERA_TYPE_XYZ_KEYBOARD, camera_position, camera_target, camera_up );
 
-render_add_model
+_model_backpack = render_add_model
     ( 
     "..\\..\\Assets\\Models\\backpack", /* path to the model file */
     "..\\..\\Assets\\Models\\backpack", /* path to the diffuse maps */
     "..\\..\\Assets\\Models\\backpack", /* path to the specular maps */
     "backpack.obj",                     /* model name               */
-    model_pos 
+    backpack_pos 
     );
+
 
 render_add_light_source( light_pos, light_color, light_ambient_strength );
 
@@ -48,7 +50,7 @@ while( render_is_active() )
     render_clear_screen();
     render_draw_light();
 
-    render_draw_model();
+    render_draw_model( _model_backpack );
 
     render_draw_and_poll_events();
     }
